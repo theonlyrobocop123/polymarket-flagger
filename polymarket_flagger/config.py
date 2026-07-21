@@ -30,6 +30,7 @@ class Config:
 
     state_path: str = "state.json"
     fighter_cache_path: str = "fighters_cache.json"
+    cache_max_age_days: int = 7
     events_per_tag: int = 200
 
     @classmethod

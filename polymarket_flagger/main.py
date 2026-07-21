@@ -36,11 +36,9 @@ def run_cycle(cfg, client_fn, store, now_str):
 
 
 def _load_store(cfg):
-    store = FighterStore.from_cache(cfg.fighter_cache_path, cfg.name_match_threshold)
-    if store is None:
-        log.info("No fighter cache; scraping UFCStats roster.")
-        store = FighterStore.build_and_cache(cfg)
-    return store
+    # Fresh cache -> live PoW scrape -> stale cache -> committed seed. Never empty
+    # when the seed exists, so Flag 1 always has data even if the scrape is blocked.
+    return FighterStore.load(cfg)
 
 
 def main():
