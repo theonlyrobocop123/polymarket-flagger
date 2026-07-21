@@ -50,6 +50,6 @@ jobs:
           cp state.json /tmp/state/ 2>/dev/null || true
           cp fighters_cache.json /tmp/state/ 2>/dev/null || true
           cd /tmp/state
-          git add state.json fighters_cache.json 2>/dev/null || true
+          git add -f state.json fighters_cache.json 2>/dev/null || true
           git commit -m "state: update [skip ci]" || echo "no changes"
           git push origin HEAD:bot-state

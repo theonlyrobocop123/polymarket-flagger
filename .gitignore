@@ -4,3 +4,9 @@ __pycache__/
 .venv/
 venv/
 *.sqlite
+
+# Runtime state - persisted to the bot-state branch by CI, never on main/build
+# (the workflow force-adds these into the bot-state worktree)
+state.json
+fighters_cache.json
+.superpowers/
