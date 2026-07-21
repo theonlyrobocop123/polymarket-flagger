@@ -17,7 +17,7 @@ def _mispricing_index(market: Market, store, cfg):
     if abs(ra.win_pct - rb.win_pct) > cfg.flag1_gap_pct:
         return None
     dog = 0 if market.prices[0] <= market.prices[1] else 1
-    if market.prices[dog] >= 0.20:
+    if market.prices[dog] >= cfg.flag1_underdog_max:
         return None
     return dog, ra, rb
 

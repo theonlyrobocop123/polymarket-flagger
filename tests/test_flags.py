@@ -88,6 +88,19 @@ def test_flag1_cheap_side_boundary_not_below_020():
     assert items == []
 
 
+def test_flag1_underdog_max_is_configurable():
+    # M1: the underdog cap comes from Config, not a literal 0.20.
+    cfg = Config(flag1_underdog_max=0.10)
+    store = FakeStore({
+        "A": FighterRecord("A", "", 3, 1, 0),
+        "B": FighterRecord("B", "", 3, 1, 0),
+    })
+    # cheap side 0.18 is below the default 0.20 but not below the tightened 0.10.
+    assert evaluate([_ufc_market([0.82, 0.18])], store, cfg) == []
+    # With the default cap it fires.
+    assert FLAG_MISPRICING in evaluate([_ufc_market([0.82, 0.18])], store, Config())[0].flags
+
+
 def test_flag1_min_fights_boundary_fires_at_exactly_4():
     cfg = Config()
     store = FakeStore({

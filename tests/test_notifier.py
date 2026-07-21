@@ -1,7 +1,12 @@
+import logging
+
+import requests
+
+from polymarket_flagger.config import Config
 from polymarket_flagger.models import (
     QualifyingItem, FLAG_MISPRICING, FLAG_UFC_LONGSHOT, FLAG_SPORTS_LONGSHOT,
 )
-from polymarket_flagger.telegram_notifier import format_message
+from polymarket_flagger.telegram_notifier import format_message, send
 
 
 def _item(**kw):
@@ -43,3 +48,39 @@ def test_title_and_outcome_are_html_escaped():
     assert "<script>" not in msg
     assert "A &lt;script&gt; &amp; B" in msg
     assert "&lt;X&gt; &amp; Y" in msg
+
+
+_SECRET = "123456789:AA-super-secret-token"
+
+
+class _Resp:
+    status_code = 401
+
+    def raise_for_status(self):
+        raise requests.HTTPError(
+            f"401 Client Error for url: https://api.telegram.org/bot{_SECRET}/sendMessage"
+        )
+
+
+def test_send_http_error_does_not_leak_token(monkeypatch, caplog):
+    cfg = Config(telegram_token=_SECRET, telegram_chat_id="42")
+    monkeypatch.setattr("polymarket_flagger.telegram_notifier.requests.post",
+                        lambda *a, **k: _Resp())
+    with caplog.at_level(logging.ERROR):
+        assert send(cfg, "hi") is False
+    assert _SECRET not in caplog.text
+    assert "HTTP 401" in caplog.text
+
+
+def test_send_connection_error_scrubs_token(monkeypatch, caplog):
+    cfg = Config(telegram_token=_SECRET, telegram_chat_id="42")
+
+    def _raise(*a, **k):
+        raise requests.ConnectionError(
+            f"Failed to connect to https://api.telegram.org/bot{_SECRET}/sendMessage"
+        )
+
+    monkeypatch.setattr("polymarket_flagger.telegram_notifier.requests.post", _raise)
+    with caplog.at_level(logging.ERROR):
+        assert send(cfg, "hi") is False
+    assert _SECRET not in caplog.text

@@ -23,14 +23,21 @@ def parse_roster_html(html: str) -> list[FighterRecord]:
     records = []
     for row in soup.select("tr.b-statistics__table-row"):
         cols = [c.get_text(strip=True) for c in row.select("td.b-statistics__table-col")]
-        if len(cols) < 6:
+        if len(cols) < 3:
             continue
-        first, last, nick, wins, losses, draws = cols[0], cols[1], cols[2], cols[3], cols[4], cols[5]
-        if not (wins.isdigit() and losses.isdigit() and draws.isdigit()):
-            continue
+        first, last, nick = cols[0], cols[1], cols[2]
         full = f"{first} {last}".strip()
         if not full:
             continue
+        # Real UFCStats layout: First, Last, Nickname, Ht., Wt., Reach, Stance,
+        # W, L, D, Belt. W/L/D are the only all-digit columns among the trailing
+        # stats (height/weight/reach carry units, belt is blank), so take the last
+        # three all-digit columns. This survives added/reordered columns and never
+        # misreads a units column as a record.
+        digit_cols = [c for c in cols[3:] if c.isdigit()]
+        if len(digit_cols) < 3:
+            continue
+        wins, losses, draws = digit_cols[-3:]
         records.append(FighterRecord(
             name=full, nickname=nick,
             wins=int(wins), losses=int(losses), draws=int(draws),
@@ -42,12 +49,50 @@ class FighterStore:
     def __init__(self, records: list[FighterRecord], threshold: int = 85):
         self.records = records
         self.threshold = threshold
-        # Map normalized "name"/"nickname" -> record for fuzzy matching
+        # Map normalized "name"/"nickname" -> record for fuzzy matching.
+        # Never-guess safety: if two DIFFERENT records share a normalized full name
+        # (UFC has multiple e.g. "Bruno Silva") that name is ambiguous and must not
+        # resolve at all - lookup returns None rather than confidently returning the
+        # wrong person. Same rule for shared nicknames.
+        ambiguous_names = self._collisions(records, lambda r: r.name)
+        ambiguous_nicks = self._collisions(records, lambda r: r.nickname)
+        for key in ambiguous_names:
+            log.warning("Ambiguous fighter name, skipping: %r", key)
+
         self._choices = {}
         for r in records:
-            self._choices[_norm(r.name)] = r
-            if r.nickname:
-                self._choices.setdefault(_norm(r.nickname), r)
+            name_key = _norm(r.name)
+            if name_key and name_key not in ambiguous_names:
+                self._choices.setdefault(name_key, r)
+        for r in records:
+            if not r.nickname:
+                continue
+            nick_key = _norm(r.nickname)
+            if nick_key and nick_key not in ambiguous_nicks:
+                self._choices.setdefault(nick_key, r)
+
+    @staticmethod
+    def _collisions(records, keyfunc) -> set:
+        """Normalized keys held by two or more DIFFERENT records.
+
+        Two distinct people named "Bruno Silva" share the name STRING, so the
+        comparison is between the records themselves: a genuinely identical
+        duplicate record is not a collision, but two different records are.
+        """
+        first_seen = {}
+        ambiguous = set()
+        for r in records:
+            key = _norm(keyfunc(r))
+            if not key:
+                continue
+            if key in first_seen:
+                # FighterRecord is an unfrozen dataclass (unhashable) but supports
+                # equality via its fields.
+                if first_seen[key] != r:
+                    ambiguous.add(key)
+            else:
+                first_seen[key] = r
+        return ambiguous
 
     def lookup(self, name: str):
         if not name or not self._choices:

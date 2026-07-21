@@ -5,23 +5,76 @@
     "markets": [
       {
         "id": "2885100",
-        "question": "UFC: Mike Davis vs. Nurullo Aliev",
+        "question": "UFC Fight Night: Mike Davis vs. Nurullo Aliev",
         "outcomes": "[\"Mike Davis\", \"Nurullo Aliev\"]",
         "outcomePrices": "[\"0.92\", \"0.08\"]",
         "volumeNum": 18000.0,
         "liquidityNum": 18000.0,
+        "sportsMarketType": "moneyline",
         "endDate": "2026-07-26T03:59:59.999Z",
         "active": true,
         "closed": false
       },
       {
         "id": "2885101",
-        "question": "UFC: Davis vs Aliev - Method of victory",
-        "outcomes": "[\"KO/TKO\", \"Decision\", \"Submission\"]",
-        "outcomePrices": "[\"0.4\", \"0.4\", \"0.2\"]",
+        "question": "Will Mike Davis win by KO/TKO?",
+        "outcomes": "[\"Yes\", \"No\"]",
+        "outcomePrices": "[\"0.35\", \"0.65\"]",
         "volumeNum": 500.0,
         "liquidityNum": 500.0,
+        "sportsMarketType": "ufc_method_of_victory",
         "endDate": "2026-07-26T03:59:59.999Z",
+        "active": true,
+        "closed": false
+      },
+      {
+        "id": "2885102",
+        "question": "O/U 1.5 Rounds",
+        "outcomes": "[\"Over\", \"Under\"]",
+        "outcomePrices": "[\"0.685\", \"0.315\"]",
+        "volumeNum": 300.0,
+        "liquidityNum": 320.0,
+        "sportsMarketType": "totals",
+        "endDate": "2026-07-26T03:59:59.999Z",
+        "active": true,
+        "closed": false
+      },
+      {
+        "id": "2885103",
+        "question": "Davis vs Aliev - Method of victory",
+        "outcomes": "[\"KO/TKO\", \"Decision\", \"Submission\"]",
+        "outcomePrices": "[\"0.4\", \"0.4\", \"0.2\"]",
+        "volumeNum": 700.0,
+        "liquidityNum": 700.0,
+        "endDate": "2026-07-26T03:59:59.999Z",
+        "active": true,
+        "closed": false
+      }
+    ]
+  },
+  {
+    "slug": "who-will-merab-fight-next",
+    "tags": [{"slug": "ufc", "label": "UFC"}, {"slug": "sports", "label": "Sports"}],
+    "markets": [
+      {
+        "id": "897188",
+        "question": "Will Merab Dvalishvili fight Petr Yan next?",
+        "outcomes": "[\"Yes\", \"No\"]",
+        "outcomePrices": "[\"0.3\", \"0.7\"]",
+        "volumeNum": 1000.0,
+        "liquidityNum": 1000.0,
+        "endDate": "2026-12-31T03:59:59.999Z",
+        "active": true,
+        "closed": false
+      },
+      {
+        "id": "897189",
+        "question": "Will Merab Dvalishvili fight Cory Sandhagen next?",
+        "outcomes": "[\"Yes\", \"No\"]",
+        "outcomePrices": "[\"0.25\", \"0.75\"]",
+        "volumeNum": 900.0,
+        "liquidityNum": 900.0,
+        "endDate": "2026-12-31T03:59:59.999Z",
         "active": true,
         "closed": false
       }

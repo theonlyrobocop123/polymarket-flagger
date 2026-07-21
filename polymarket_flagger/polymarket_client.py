@@ -19,15 +19,35 @@ def _parse_json_field(raw, default):
         return default
 
 
+# Generic prop-market outcome patterns. A market whose outcome set is a subset of
+# any of these is a proposition bet (not a match outcome) and is excluded. Verified
+# against live Gamma UFC events: real fighter moneylines carry the two fighter names,
+# while props are Yes/No (fight-next, become-champion, method-of-victory) or
+# Over/Under (round totals).
+_PROP_OUTCOME_SETS = ({"yes", "no"}, {"over", "under"})
+
+
+def _is_prop_market(outcomes) -> bool:
+    norm = {str(o).lower().strip() for o in outcomes}
+    return any(norm <= prop_set for prop_set in _PROP_OUTCOME_SETS)
+
+
 def parse_events(events, sport, ufc_tag_slugs):
-    """Turn raw Gamma events into one Market each (highest-liquidity market)."""
+    """Emit a Market for EVERY match-outcome market on each event.
+
+    A "match-outcome" market is one whose outcomes are the participants/draw, e.g.
+    ["Mike Davis", "Nurullo Aliev"]. Generic Yes/No and Over/Under proposition
+    markets are excluded so we never alert on props (e.g. "Who will X fight next?").
+    """
     markets = []
     for ev in events:
         tag_slugs = {t.get("slug", "") for t in ev.get("tags", [])}
         is_ufc = bool(tag_slugs & set(ufc_tag_slugs))
-        candidates = []
         for mk in ev.get("markets", []):
-            if not mk.get("active", False) or mk.get("closed", False):
+            # The /events query already filters active=true&closed=false, so a
+            # missing per-market `active` is treated as truthy; only an explicit
+            # active:false or closed:true excludes a market.
+            if not mk.get("active", True) or mk.get("closed", False):
                 continue
             outcomes = _parse_json_field(mk.get("outcomes"), [])
             prices_raw = _parse_json_field(mk.get("outcomePrices"), [])
@@ -37,25 +57,20 @@ def parse_events(events, sport, ufc_tag_slugs):
                 prices = [float(p) for p in prices_raw]
             except (ValueError, TypeError):
                 continue
-            candidates.append((mk, outcomes, prices))
-        if not candidates:
-            continue
-        # Primary market = highest liquidity (the moneyline/winner market)
-        mk, outcomes, prices = max(
-            candidates, key=lambda c: float(c[0].get("liquidityNum") or 0.0)
-        )
-        markets.append(Market(
-            id=str(mk.get("id", "")),
-            title=mk.get("question", ""),
-            outcomes=outcomes,
-            prices=prices,
-            volume=float(mk.get("volumeNum") or 0.0),
-            liquidity=float(mk.get("liquidityNum") or 0.0),
-            event_slug=ev.get("slug", ""),
-            end_date=mk.get("endDate", ""),
-            is_ufc=is_ufc,
-            sport=sport,
-        ))
+            if _is_prop_market(outcomes):
+                continue
+            markets.append(Market(
+                id=str(mk.get("id", "")),
+                title=mk.get("question", ""),
+                outcomes=outcomes,
+                prices=prices,
+                volume=float(mk.get("volumeNum") or 0.0),
+                liquidity=float(mk.get("liquidityNum") or 0.0),
+                event_slug=ev.get("slug", ""),
+                end_date=mk.get("endDate", ""),
+                is_ufc=is_ufc,
+                sport=sport,
+            ))
     return markets
 
 
@@ -81,7 +96,8 @@ def fetch_markets(cfg):
             log.warning("Gamma fetch failed for tag %s: %s", slug, exc)
             continue
         for m in parse_events(events, sport=slug, ufc_tag_slugs=cfg.ufc_tag_slugs):
-            # First tag wins; but prefer a UFC-tagged view if any tag marks it UFC
-            if m.id not in by_id or (m.is_ufc and not by_id[m.id].is_ufc):
-                by_id[m.id] = m
+            # First tag wins. is_ufc is derived from the event's own tags, so the
+            # same market id yields the same is_ufc under any tag_slug it surfaces
+            # for; a later duplicate can never carry more info than the first.
+            by_id.setdefault(m.id, m)
     return list(by_id.values())

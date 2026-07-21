@@ -87,6 +87,15 @@ def send(cfg, text):
         )
         resp.raise_for_status()
         return True
+    except requests.HTTPError:
+        # The raw HTTPError string embeds the request URL, which contains
+        # bot<TOKEN>. Log only the status code so the token never reaches CI logs.
+        log.error("Telegram send failed: HTTP %s", resp.status_code)
+        return False
     except requests.RequestException as exc:
-        log.error("Telegram send failed: %s", exc)
+        # Connection/timeout errors: log the type and a token-scrubbed message.
+        detail = str(exc)
+        if cfg.telegram_token:
+            detail = detail.replace(cfg.telegram_token, "<redacted>")
+        log.error("Telegram send failed: %s: %s", type(exc).__name__, detail)
         return False
