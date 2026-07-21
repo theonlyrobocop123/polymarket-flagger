@@ -19,7 +19,9 @@ def diff(items, prev):
     new_items, still_items = [], []
     for it in items:
         if it.key in prev:
-            still_items.append((it, prev[it.key].get("price")))
+            entry = prev.get(it.key)
+            prev_price = entry.get("price") if isinstance(entry, dict) else None
+            still_items.append((it, prev_price))
         else:
             new_items.append(it)
     return new_items, still_items

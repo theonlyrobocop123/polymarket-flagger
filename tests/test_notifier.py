@@ -35,3 +35,11 @@ def test_mispricing_shows_record_detail():
 def test_empty_still_section_omitted():
     msg = format_message("t", [_item()], [])
     assert "STILL QUALIFYING" not in msg
+
+
+def test_title_and_outcome_are_html_escaped():
+    item = _item(title="A <script> & B", flagged_outcome="<X> & Y")
+    msg = format_message("t", [item], [])
+    assert "<script>" not in msg
+    assert "A &lt;script&gt; &amp; B" in msg
+    assert "&lt;X&gt; &amp; Y" in msg

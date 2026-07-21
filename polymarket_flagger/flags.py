@@ -1,11 +1,7 @@
-import logging
-
 from .models import (
     Market, QualifyingItem,
     FLAG_MISPRICING, FLAG_UFC_LONGSHOT, FLAG_SPORTS_LONGSHOT,
 )
-
-log = logging.getLogger(__name__)
 
 
 def _mispricing_index(market: Market, store, cfg):
@@ -49,7 +45,6 @@ def evaluate(markets, store, cfg):
             if hits:
                 flags_by_index.setdefault(i, []).extend(hits)
 
-        detail = ""
         mis = _mispricing_index(market, store, cfg)
         if mis is not None:
             dog, ra, rb = mis

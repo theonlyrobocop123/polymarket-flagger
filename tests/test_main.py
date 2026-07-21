@@ -1,5 +1,5 @@
 from polymarket_flagger.config import Config
-from polymarket_flagger.models import Market, FighterRecord
+from polymarket_flagger.models import Market
 from polymarket_flagger import main as main_mod
 
 

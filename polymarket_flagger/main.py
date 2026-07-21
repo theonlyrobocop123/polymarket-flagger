@@ -45,10 +45,14 @@ def _load_store(cfg):
 
 def main():
     cfg = Config.from_env()
-    store = _load_store(cfg)
-    now_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    sent = run_cycle(cfg, fetch_markets, store, now_str)
-    log.info("Cycle done. Message sent: %s", sent)
+    try:
+        store = _load_store(cfg)
+        now_str = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+        sent = run_cycle(cfg, fetch_markets, store, now_str)
+        log.info("Cycle done. Message sent: %s", sent)
+    except Exception as exc:
+        log.exception("Cycle failed: %s", exc)
+        return
 
 
 if __name__ == "__main__":

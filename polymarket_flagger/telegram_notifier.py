@@ -45,7 +45,7 @@ def _render_item(item, prev_price=None):
     outcome = html.escape(item.flagged_outcome)
     price = _pct(item.price)
     was = f" (was {_pct(prev_price)})" if prev_price is not None else ""
-    url = f"https://polymarket.com/event/{item.event_slug}"
+    url = html.escape(f"https://polymarket.com/event/{item.event_slug}", quote=True)
     return (
         f"{emoji} <b>{title}</b>\n"
         f"{outcome} <b>@ {price}</b>{was} · vol {_money(item.volume)} · liq {_money(item.liquidity)}\n"
