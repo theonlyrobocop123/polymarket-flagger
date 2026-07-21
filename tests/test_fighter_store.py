@@ -29,3 +29,29 @@ def test_lookup_accent_and_suffix():
 
 def test_lookup_below_threshold_returns_none():
     assert _store().lookup("Completely Different Person") is None
+
+
+def test_cache_round_trip(tmp_path):
+    store = _store()
+    cache_path = tmp_path / "fighters.json"
+    store.to_cache(str(cache_path))
+
+    loaded = FighterStore.from_cache(str(cache_path))
+
+    assert loaded is not None
+    jones = loaded.lookup("Jon Jones")
+    assert jones is not None
+    assert (jones.wins, jones.losses, jones.draws) == (27, 1, 0)
+    assert jones.nickname == "Bones"
+
+
+def test_from_cache_missing_file_returns_none(tmp_path):
+    missing_path = tmp_path / "does_not_exist.json"
+    assert FighterStore.from_cache(str(missing_path)) is None
+
+
+def test_from_cache_corrupt_schema_returns_none(tmp_path):
+    cache_path = tmp_path / "corrupt.json"
+    cache_path.write_text('{"not": "a list"}', encoding="utf-8")
+
+    assert FighterStore.from_cache(str(cache_path)) is None

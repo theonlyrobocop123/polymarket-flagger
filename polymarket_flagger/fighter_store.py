@@ -72,9 +72,9 @@ class FighterStore:
         try:
             with open(path, encoding="utf-8") as fh:
                 data = json.load(fh)
-        except (OSError, ValueError):
+            records = [FighterRecord(**d) for d in data]
+        except (OSError, ValueError, TypeError, AttributeError):
             return None
-        records = [FighterRecord(**d) for d in data]
         return cls(records, threshold) if records else None
 
     @classmethod
