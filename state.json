@@ -1,0 +1,80 @@
+{
+  "2884951|Wellington Turman": {
+    "price": 0.125,
+    "flags": [
+      "ufc_longshot"
+    ]
+  },
+  "2885074|Brendson Ribeiro": {
+    "price": 0.145,
+    "flags": [
+      "ufc_longshot"
+    ]
+  },
+  "2926087|Bogdan Guskov": {
+    "price": 0.175,
+    "flags": [
+      "ufc_mispricing"
+    ]
+  },
+  "2168308|Judge": {
+    "price": 0.095,
+    "flags": [
+      "sports_longshot"
+    ]
+  },
+  "2986349|Darwin Blanch": {
+    "price": 0.023,
+    "flags": [
+      "sports_longshot"
+    ]
+  },
+  "2986360|Bernard Tomic": {
+    "price": 0.0005,
+    "flags": [
+      "sports_longshot"
+    ]
+  },
+  "3002877|Torres": {
+    "price": 0.055,
+    "flags": [
+      "sports_longshot"
+    ]
+  },
+  "3002040|Ren Nakamura": {
+    "price": 0.06,
+    "flags": [
+      "sports_longshot"
+    ]
+  },
+  "3002048|Gunawan Trismuwantara": {
+    "price": 0.075,
+    "flags": [
+      "sports_longshot"
+    ]
+  },
+  "3002067|Hitesh Chauhan": {
+    "price": 0.085,
+    "flags": [
+      "sports_longshot"
+    ]
+  },
+  "3002077|Ethan David Zapp": {
+    "price": 0.055,
+    "flags": [
+      "sports_longshot"
+    ]
+  },
+  "3006337|Anastasia Mozgaleva": {
+    "price": 0.055,
+    "flags": [
+      "sports_longshot"
+    ]
+  },
+  "3006341|Charlotte Pikkaart": {
+    "price": 0.055,
+    "flags": [
+      "sports_longshot"
+    ]
+  }
+}
