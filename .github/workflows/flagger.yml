@@ -1,0 +1,55 @@
+name: Polymarket Flagger
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: flagger
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Restore state from bot-state branch
+        run: |
+          git fetch origin bot-state --depth=1 || echo "no state branch yet"
+          git show origin/bot-state:state.json > state.json 2>/dev/null || echo "{}" > state.json
+          git show origin/bot-state:fighters_cache.json > fighters_cache.json 2>/dev/null || rm -f fighters_cache.json
+
+      - name: Run flagger
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python -m polymarket_flagger.main
+
+      - name: Persist state to bot-state branch
+        run: |
+          git config user.name "flagger-bot"
+          git config user.email "flagger-bot@users.noreply.github.com"
+          git fetch origin bot-state --depth=1 || true
+          if git show-ref --verify --quiet refs/remotes/origin/bot-state; then
+            git worktree add /tmp/state bot-state
+          else
+            git worktree add --orphan -b bot-state /tmp/state
+          fi
+          cp state.json /tmp/state/ 2>/dev/null || true
+          cp fighters_cache.json /tmp/state/ 2>/dev/null || true
+          cd /tmp/state
+          git add state.json fighters_cache.json 2>/dev/null || true
+          git commit -m "state: update [skip ci]" || echo "no changes"
+          git push origin HEAD:bot-state
