@@ -1,0 +1,30 @@
+[
+  {
+    "slug": "ufc-dav-ali-2026-07-25",
+    "tags": [{"slug": "ufc", "label": "UFC"}, {"slug": "sports", "label": "Sports"}],
+    "markets": [
+      {
+        "id": "2885100",
+        "question": "UFC: Mike Davis vs. Nurullo Aliev",
+        "outcomes": "[\"Mike Davis\", \"Nurullo Aliev\"]",
+        "outcomePrices": "[\"0.92\", \"0.08\"]",
+        "volumeNum": 18000.0,
+        "liquidityNum": 18000.0,
+        "endDate": "2026-07-26T03:59:59.999Z",
+        "active": true,
+        "closed": false
+      },
+      {
+        "id": "2885101",
+        "question": "UFC: Davis vs Aliev - Method of victory",
+        "outcomes": "[\"KO/TKO\", \"Decision\", \"Submission\"]",
+        "outcomePrices": "[\"0.4\", \"0.4\", \"0.2\"]",
+        "volumeNum": 500.0,
+        "liquidityNum": 500.0,
+        "endDate": "2026-07-26T03:59:59.999Z",
+        "active": true,
+        "closed": false
+      }
+    ]
+  }
+]
