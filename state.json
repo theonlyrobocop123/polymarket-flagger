@@ -17,6 +17,12 @@
       "ufc_mispricing"
     ]
   },
+  "2994062|Daniel Rodriguez": {
+    "price": 0.195,
+    "flags": [
+      "ufc_mispricing"
+    ]
+  },
   "2168308|Judge": {
     "price": 0.095,
     "flags": [
@@ -29,8 +35,8 @@
       "sports_longshot"
     ]
   },
-  "2148756|Viking FK": {
-    "price": 0.095,
+  "2989248|Colombo Kaps": {
+    "price": 0.0295,
     "flags": [
       "sports_longshot"
     ]
