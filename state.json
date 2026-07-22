@@ -23,56 +23,32 @@
       "sports_longshot"
     ]
   },
-  "2986349|Darwin Blanch": {
-    "price": 0.023,
+  "2934561|Washington Nationals": {
+    "price": 0.09,
     "flags": [
       "sports_longshot"
     ]
   },
-  "2986360|Bernard Tomic": {
+  "3004605|Washington Nationals": {
+    "price": 0.005,
+    "flags": [
+      "sports_longshot"
+    ]
+  },
+  "2934563|St. Louis Cardinals": {
+    "price": 0.025,
+    "flags": [
+      "sports_longshot"
+    ]
+  },
+  "3004620|St. Louis Cardinals": {
+    "price": 0.0285,
+    "flags": [
+      "sports_longshot"
+    ]
+  },
+  "2996337|New Zealand": {
     "price": 0.0005,
-    "flags": [
-      "sports_longshot"
-    ]
-  },
-  "3002877|Torres": {
-    "price": 0.055,
-    "flags": [
-      "sports_longshot"
-    ]
-  },
-  "3002040|Ren Nakamura": {
-    "price": 0.06,
-    "flags": [
-      "sports_longshot"
-    ]
-  },
-  "3002048|Gunawan Trismuwantara": {
-    "price": 0.075,
-    "flags": [
-      "sports_longshot"
-    ]
-  },
-  "3002067|Hitesh Chauhan": {
-    "price": 0.085,
-    "flags": [
-      "sports_longshot"
-    ]
-  },
-  "3002077|Ethan David Zapp": {
-    "price": 0.055,
-    "flags": [
-      "sports_longshot"
-    ]
-  },
-  "3006337|Anastasia Mozgaleva": {
-    "price": 0.055,
-    "flags": [
-      "sports_longshot"
-    ]
-  },
-  "3006341|Charlotte Pikkaart": {
-    "price": 0.055,
     "flags": [
       "sports_longshot"
     ]
