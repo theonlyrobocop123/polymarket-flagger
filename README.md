@@ -17,11 +17,14 @@ The three flags:
 2. **UFC longshot** - any UFC fighter priced under 15%.
 3. **Sports longshot** - any sports outcome priced under 10%, as long as the market has real money in it (a liquidity floor).
 
-Sports currently scanned: UFC/MMA, NBA, NFL, MLB, NHL, soccer, boxing, cricket.
-Tennis is deliberately excluded (too skill-dominated for these longshot rules to mean much).
+Sports currently scanned: **UFC/MMA only.**
+Other sports (NBA, soccer, etc.) are intentionally turned off for now.
+The flag logic still supports them, so re-adding a sport is a one-line change (see Section 4).
 
-For general sports it only looks at real match-outcome markets (who wins, draw).
-It ignores "prop" markets like "will X happen?" or over/under, which are Yes/No or Over/Under - that keeps the noise down.
+It only looks at real fight/match-outcome markets (who wins).
+It ignores "prop" markets like "will X happen?" or over/under - that keeps the noise down.
+
+Note: with UFC-only, a fighter under 10% trips both the UFC-longshot and sports-longshot rules, so an alert may show both tags for the same bet. That is expected and harmless.
 
 You only get pinged when something NEW qualifies.
 The same alert also lists markets that still qualify, with their updated percentages and a "(was X%)" so you can see movement.

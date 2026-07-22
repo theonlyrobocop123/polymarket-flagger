@@ -10,11 +10,10 @@ load_dotenv()  # loads .env if present; no-op in CI where env is set directly
 class Config:
     gamma_base: str = "https://gamma-api.polymarket.com"
     # Sport tag slugs to scan on the Gamma /events endpoint.
-    # Tennis intentionally excluded: too skill-dominated for longshot flags to be meaningful.
-    sport_tag_slugs: tuple = (
-        "ufc", "mma", "nba", "nfl", "mlb", "nhl",
-        "soccer", "boxing", "cricket",
-    )
+    # UFC/MMA only for now (other sports intentionally not scanned).
+    # To re-add sports later, put their Polymarket tag slugs back here
+    # (e.g. "nba", "soccer", "boxing") - the flag logic already handles them.
+    sport_tag_slugs: tuple = ("ufc", "mma")
     ufc_tag_slugs: tuple = ("ufc", "mma")
 
     flag1_gap_pct: float = 15.0
