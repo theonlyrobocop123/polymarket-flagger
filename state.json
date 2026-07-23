@@ -6,13 +6,19 @@
     ]
   },
   "2885074|Brendson Ribeiro": {
-    "price": 0.135,
+    "price": 0.125,
     "flags": [
       "ufc_longshot"
     ]
   },
   "2926087|Bogdan Guskov": {
-    "price": 0.175,
+    "price": 0.185,
+    "flags": [
+      "ufc_mispricing"
+    ]
+  },
+  "2926122|Santiago Ponzinibbio": {
+    "price": 0.195,
     "flags": [
       "ufc_mispricing"
     ]
@@ -21,24 +27,6 @@
     "price": 0.195,
     "flags": [
       "ufc_mispricing"
-    ]
-  },
-  "2168308|Judge": {
-    "price": 0.095,
-    "flags": [
-      "sports_longshot"
-    ]
-  },
-  "2148753|Lillestr\u00f8m SK": {
-    "price": 0.053,
-    "flags": [
-      "sports_longshot"
-    ]
-  },
-  "2989248|Colombo Kaps": {
-    "price": 0.0295,
-    "flags": [
-      "sports_longshot"
     ]
   }
 }
