@@ -1,13 +1,13 @@
 {
   "2885013|Thomas Petersen": {
-    "price": 0.0015,
+    "price": 0.005,
     "flags": [
       "sports_longshot",
       "ufc_longshot"
     ]
   },
   "2885054|Ismael Bonfim": {
-    "price": 0.0005,
+    "price": 0.0025,
     "flags": [
       "sports_longshot",
       "ufc_longshot",
@@ -22,10 +22,18 @@
     ]
   },
   "2885100|Mike Davis": {
-    "price": 0.0005,
+    "price": 0.005,
     "flags": [
       "sports_longshot",
       "ufc_longshot"
+    ]
+  },
+  "2898884|Saygid Izagakhmaev": {
+    "price": 0.0005,
+    "flags": [
+      "sports_longshot",
+      "ufc_longshot",
+      "ufc_mispricing"
     ]
   },
   "2926087|Bogdan Guskov": {
@@ -43,7 +51,7 @@
     ]
   },
   "3021219|Dustin Jacoby": {
-    "price": 0.0015,
+    "price": 0.0055,
     "flags": [
       "sports_longshot",
       "ufc_longshot"
