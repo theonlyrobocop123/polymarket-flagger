@@ -1,6 +1,13 @@
 {
+  "2884975|Damian Rzepecki": {
+    "price": 0.115,
+    "flags": [
+      "ufc_longshot",
+      "ufc_mispricing"
+    ]
+  },
   "2884994|Tyrell Fortune": {
-    "price": 0.025,
+    "price": 0.0005,
     "flags": [
       "sports_longshot",
       "ufc_longshot",
@@ -30,18 +37,10 @@
     ]
   },
   "2885100|Mike Davis": {
-    "price": 0.005,
+    "price": 0.0045,
     "flags": [
       "sports_longshot",
       "ufc_longshot"
-    ]
-  },
-  "2898884|Saygid Izagakhmaev": {
-    "price": 0.0005,
-    "flags": [
-      "sports_longshot",
-      "ufc_longshot",
-      "ufc_mispricing"
     ]
   },
   "2926087|Bogdan Guskov": {
@@ -59,7 +58,7 @@
     ]
   },
   "3021219|Dustin Jacoby": {
-    "price": 0.006,
+    "price": 0.01,
     "flags": [
       "sports_longshot",
       "ufc_longshot"
