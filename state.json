@@ -1,14 +1,22 @@
 {
-  "2885074|Brendson Ribeiro": {
-    "price": 0.125,
+  "2885054|Ismael Bonfim": {
+    "price": 0.0005,
     "flags": [
+      "sports_longshot",
+      "ufc_longshot",
+      "ufc_mispricing"
+    ]
+  },
+  "2885074|Brendson Ribeiro": {
+    "price": 0.0005,
+    "flags": [
+      "sports_longshot",
       "ufc_longshot"
     ]
   },
   "2885100|Mike Davis": {
-    "price": 0.015,
+    "price": 0.0045,
     "flags": [
-      "sports_longshot",
       "ufc_longshot"
     ]
   },
@@ -19,16 +27,9 @@
     ]
   },
   "2926122|Santiago Ponzinibbio": {
-    "price": 0.195,
+    "price": 0.155,
     "flags": [
       "ufc_mispricing"
-    ]
-  },
-  "3021249|Cody Gibson": {
-    "price": 0.0005,
-    "flags": [
-      "sports_longshot",
-      "ufc_longshot"
     ]
   }
 }
