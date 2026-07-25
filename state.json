@@ -1,10 +1,4 @@
 {
-  "2884951|Wellington Turman": {
-    "price": 0.125,
-    "flags": [
-      "ufc_longshot"
-    ]
-  },
   "2885074|Brendson Ribeiro": {
     "price": 0.125,
     "flags": [
@@ -12,7 +6,7 @@
     ]
   },
   "2926087|Bogdan Guskov": {
-    "price": 0.185,
+    "price": 0.175,
     "flags": [
       "ufc_mispricing"
     ]
@@ -23,10 +17,10 @@
       "ufc_mispricing"
     ]
   },
-  "2994062|Daniel Rodriguez": {
-    "price": 0.195,
+  "3021249|Cody Gibson": {
+    "price": 0.145,
     "flags": [
-      "ufc_mispricing"
+      "ufc_longshot"
     ]
   }
 }
