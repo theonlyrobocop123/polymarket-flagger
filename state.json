@@ -15,21 +15,31 @@
     ]
   },
   "2885100|Mike Davis": {
-    "price": 0.0045,
+    "price": 0.0005,
     "flags": [
+      "sports_longshot",
       "ufc_longshot"
     ]
   },
   "2926087|Bogdan Guskov": {
-    "price": 0.175,
+    "price": 0.185,
     "flags": [
       "ufc_mispricing"
     ]
   },
   "2926122|Santiago Ponzinibbio": {
-    "price": 0.155,
+    "price": 0.001,
     "flags": [
+      "sports_longshot",
+      "ufc_longshot",
       "ufc_mispricing"
+    ]
+  },
+  "3021219|Dustin Jacoby": {
+    "price": 0.0015,
+    "flags": [
+      "sports_longshot",
+      "ufc_longshot"
     ]
   }
 }
