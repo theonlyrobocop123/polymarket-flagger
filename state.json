@@ -5,6 +5,13 @@
       "ufc_longshot"
     ]
   },
+  "2885100|Mike Davis": {
+    "price": 0.015,
+    "flags": [
+      "sports_longshot",
+      "ufc_longshot"
+    ]
+  },
   "2926087|Bogdan Guskov": {
     "price": 0.175,
     "flags": [
@@ -18,8 +25,9 @@
     ]
   },
   "3021249|Cody Gibson": {
-    "price": 0.145,
+    "price": 0.0005,
     "flags": [
+      "sports_longshot",
       "ufc_longshot"
     ]
   }
