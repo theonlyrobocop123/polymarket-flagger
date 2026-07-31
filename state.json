@@ -1,75 +1,7 @@
 {
-  "2884925|Steve Erceg": {
-    "price": 0.0005,
+  "2994322|Kyle Prepolec": {
+    "price": 0.14,
     "flags": [
-      "sports_longshot",
-      "ufc_longshot",
-      "ufc_mispricing"
-    ]
-  },
-  "2884975|Damian Rzepecki": {
-    "price": 0.0005,
-    "flags": [
-      "sports_longshot",
-      "ufc_longshot",
-      "ufc_mispricing"
-    ]
-  },
-  "2884994|Tyrell Fortune": {
-    "price": 0.0005,
-    "flags": [
-      "sports_longshot",
-      "ufc_longshot",
-      "ufc_mispricing"
-    ]
-  },
-  "2885013|Thomas Petersen": {
-    "price": 0.0055,
-    "flags": [
-      "sports_longshot",
-      "ufc_longshot"
-    ]
-  },
-  "2885054|Ismael Bonfim": {
-    "price": 0.0045,
-    "flags": [
-      "sports_longshot",
-      "ufc_longshot",
-      "ufc_mispricing"
-    ]
-  },
-  "2885074|Brendson Ribeiro": {
-    "price": 0.0005,
-    "flags": [
-      "sports_longshot",
-      "ufc_longshot"
-    ]
-  },
-  "2885100|Mike Davis": {
-    "price": 0.0045,
-    "flags": [
-      "sports_longshot",
-      "ufc_longshot"
-    ]
-  },
-  "2926087|Bogdan Guskov": {
-    "price": 0.185,
-    "flags": [
-      "ufc_mispricing"
-    ]
-  },
-  "2926122|Santiago Ponzinibbio": {
-    "price": 0.0005,
-    "flags": [
-      "sports_longshot",
-      "ufc_longshot",
-      "ufc_mispricing"
-    ]
-  },
-  "3021219|Dustin Jacoby": {
-    "price": 0.0005,
-    "flags": [
-      "sports_longshot",
       "ufc_longshot"
     ]
   }
