@@ -1,17 +1,10 @@
 {
-  "2994262|Dennis Buzukja": {
-    "price": 0.0055,
+  "3211554|Mark Vologdin": {
+    "price": 0.006,
     "flags": [
       "sports_longshot",
       "ufc_longshot",
       "ufc_mispricing"
-    ]
-  },
-  "2994322|Kyle Prepolec": {
-    "price": 0.0005,
-    "flags": [
-      "sports_longshot",
-      "ufc_longshot"
     ]
   }
 }
