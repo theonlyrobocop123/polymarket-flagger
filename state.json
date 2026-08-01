@@ -1,4 +1,11 @@
 {
+  "2994286|Hailey Cowan": {
+    "price": 0.0005,
+    "flags": [
+      "sports_longshot",
+      "ufc_longshot"
+    ]
+  },
   "2994322|Kyle Prepolec": {
     "price": 0.125,
     "flags": [
