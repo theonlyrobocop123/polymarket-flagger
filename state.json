@@ -1,4 +1,11 @@
 {
+  "2994165|Vlasto Cepo": {
+    "price": 0.005,
+    "flags": [
+      "sports_longshot",
+      "ufc_longshot"
+    ]
+  },
   "3211510|Milos Janicic": {
     "price": 0.0005,
     "flags": [
