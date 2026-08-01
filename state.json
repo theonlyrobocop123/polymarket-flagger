@@ -1,9 +1,10 @@
 {
-  "2994344|Jan Blachowicz": {
+  "2994062|Daniel Rodriguez": {
     "price": 0.0005,
     "flags": [
       "sports_longshot",
-      "ufc_longshot"
+      "ufc_longshot",
+      "ufc_mispricing"
     ]
   }
 }
