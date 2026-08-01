@@ -1,23 +1,17 @@
 {
-  "2994286|Hailey Cowan": {
-    "price": 0.0005,
-    "flags": [
-      "sports_longshot",
-      "ufc_longshot"
-    ]
-  },
-  "2994322|Kyle Prepolec": {
-    "price": 0.125,
-    "flags": [
-      "ufc_longshot"
-    ]
-  },
-  "3211586|Alexander Poppeck": {
-    "price": 0.0005,
+  "2994262|Dennis Buzukja": {
+    "price": 0.0055,
     "flags": [
       "sports_longshot",
       "ufc_longshot",
       "ufc_mispricing"
+    ]
+  },
+  "2994322|Kyle Prepolec": {
+    "price": 0.0005,
+    "flags": [
+      "sports_longshot",
+      "ufc_longshot"
     ]
   }
 }
