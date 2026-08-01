@@ -1,6 +1,13 @@
 {
+  "2994212|Oban Elliott": {
+    "price": 0.0005,
+    "flags": [
+      "sports_longshot",
+      "ufc_longshot"
+    ]
+  },
   "3211554|Mark Vologdin": {
-    "price": 0.006,
+    "price": 0.0005,
     "flags": [
       "sports_longshot",
       "ufc_longshot",
