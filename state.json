@@ -1,8 +1,16 @@
 {
   "2994322|Kyle Prepolec": {
-    "price": 0.14,
+    "price": 0.125,
     "flags": [
       "ufc_longshot"
+    ]
+  },
+  "3211606|Marina Spasic": {
+    "price": 0.0005,
+    "flags": [
+      "sports_longshot",
+      "ufc_longshot",
+      "ufc_mispricing"
     ]
   }
 }
