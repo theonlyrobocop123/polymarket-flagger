@@ -5,8 +5,14 @@
       "ufc_longshot"
     ]
   },
+  "3275700|Dustin Stoltzfus": {
+    "price": 0.125,
+    "flags": [
+      "ufc_longshot"
+    ]
+  },
   "3275774|Jeremiah Wells": {
-    "price": 0.145,
+    "price": 0.115,
     "flags": [
       "ufc_longshot",
       "ufc_mispricing"
