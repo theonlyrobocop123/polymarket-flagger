@@ -4,5 +4,12 @@
     "flags": [
       "ufc_longshot"
     ]
+  },
+  "3275774|Jeremiah Wells": {
+    "price": 0.145,
+    "flags": [
+      "ufc_longshot",
+      "ufc_mispricing"
+    ]
   }
 }
