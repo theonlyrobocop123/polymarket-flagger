@@ -1,6 +1,6 @@
 {
   "3231999|Darren Elkins": {
-    "price": 0.145,
+    "price": 0.125,
     "flags": [
       "ufc_longshot"
     ]
@@ -11,9 +11,16 @@
       "ufc_mispricing"
     ]
   },
-  "3320601|Mridul Saikia": {
-    "price": 0.175,
+  "3320518|Matt Adams": {
+    "price": 0.12,
     "flags": [
+      "ufc_longshot"
+    ]
+  },
+  "3320601|Mridul Saikia": {
+    "price": 0.08,
+    "flags": [
+      "ufc_longshot",
       "ufc_mispricing"
     ]
   }
