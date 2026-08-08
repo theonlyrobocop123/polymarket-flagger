@@ -1,8 +1,7 @@
 {
-  "3120843|Bruno Lopes": {
-    "price": 0.02,
+  "3120904|Guilherme Pat": {
+    "price": 0.125,
     "flags": [
-      "sports_longshot",
       "ufc_longshot",
       "ufc_mispricing"
     ]
@@ -17,13 +16,6 @@
     "price": 0.175,
     "flags": [
       "ufc_mispricing"
-    ]
-  },
-  "3320401|Louie Sutherland": {
-    "price": 0.0005,
-    "flags": [
-      "sports_longshot",
-      "ufc_longshot"
     ]
   },
   "3320518|Matt Adams": {
