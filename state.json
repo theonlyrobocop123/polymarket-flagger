@@ -1,12 +1,4 @@
 {
-  "3231935|Ravena Oliveira": {
-    "price": 0.0005,
-    "flags": [
-      "sports_longshot",
-      "ufc_longshot",
-      "ufc_mispricing"
-    ]
-  },
   "3231999|Darren Elkins": {
     "price": 0.125,
     "flags": [
@@ -19,6 +11,14 @@
       "ufc_mispricing"
     ]
   },
+  "3320483|Richie Miranda": {
+    "price": 0.0005,
+    "flags": [
+      "sports_longshot",
+      "ufc_longshot",
+      "ufc_mispricing"
+    ]
+  },
   "3320518|Matt Adams": {
     "price": 0.11,
     "flags": [
@@ -28,14 +28,6 @@
   "3320601|Mridul Saikia": {
     "price": 0.1,
     "flags": [
-      "ufc_longshot",
-      "ufc_mispricing"
-    ]
-  },
-  "3390787|Gigi Canuto": {
-    "price": 0.0005,
-    "flags": [
-      "sports_longshot",
       "ufc_longshot",
       "ufc_mispricing"
     ]
