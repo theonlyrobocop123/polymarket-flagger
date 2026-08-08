@@ -1,4 +1,12 @@
 {
+  "3120843|Bruno Lopes": {
+    "price": 0.02,
+    "flags": [
+      "sports_longshot",
+      "ufc_longshot",
+      "ufc_mispricing"
+    ]
+  },
   "3231999|Darren Elkins": {
     "price": 0.125,
     "flags": [
@@ -16,14 +24,6 @@
     "flags": [
       "sports_longshot",
       "ufc_longshot"
-    ]
-  },
-  "3320483|Richie Miranda": {
-    "price": 0.0005,
-    "flags": [
-      "sports_longshot",
-      "ufc_longshot",
-      "ufc_mispricing"
     ]
   },
   "3320518|Matt Adams": {
