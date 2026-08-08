@@ -12,14 +12,22 @@
     ]
   },
   "3320518|Matt Adams": {
-    "price": 0.12,
+    "price": 0.11,
     "flags": [
       "ufc_longshot"
     ]
   },
   "3320601|Mridul Saikia": {
-    "price": 0.08,
+    "price": 0.1,
     "flags": [
+      "ufc_longshot",
+      "ufc_mispricing"
+    ]
+  },
+  "3390787|Gigi Canuto": {
+    "price": 0.075,
+    "flags": [
+      "sports_longshot",
       "ufc_longshot",
       "ufc_mispricing"
     ]
