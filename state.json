@@ -1,4 +1,12 @@
 {
+  "3231935|Ravena Oliveira": {
+    "price": 0.0005,
+    "flags": [
+      "sports_longshot",
+      "ufc_longshot",
+      "ufc_mispricing"
+    ]
+  },
   "3231999|Darren Elkins": {
     "price": 0.125,
     "flags": [
@@ -25,7 +33,7 @@
     ]
   },
   "3390787|Gigi Canuto": {
-    "price": 0.075,
+    "price": 0.0005,
     "flags": [
       "sports_longshot",
       "ufc_longshot",
