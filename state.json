@@ -11,6 +11,13 @@
       "ufc_mispricing"
     ]
   },
+  "3320401|Louie Sutherland": {
+    "price": 0.0005,
+    "flags": [
+      "sports_longshot",
+      "ufc_longshot"
+    ]
+  },
   "3320483|Richie Miranda": {
     "price": 0.0005,
     "flags": [
