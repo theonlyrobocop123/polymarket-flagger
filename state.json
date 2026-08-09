@@ -1,15 +1,10 @@
 {
-  "3120919|Amanda Lemos": {
-    "price": 0.065,
+  "3120873|Billy Quarantillo": {
+    "price": 0.095,
     "flags": [
       "sports_longshot",
-      "ufc_longshot"
-    ]
-  },
-  "3231999|Darren Elkins": {
-    "price": 0.125,
-    "flags": [
-      "ufc_longshot"
+      "ufc_longshot",
+      "ufc_mispricing"
     ]
   },
   "3275774|Jeremiah Wells": {
