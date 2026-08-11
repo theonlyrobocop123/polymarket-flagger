@@ -1,25 +1,27 @@
 {
   "3275774|Jeremiah Wells": {
-    "price": 0.155,
-    "flags": [
-      "ufc_mispricing"
-    ]
-  },
-  "3320518|Matt Adams": {
-    "price": 0.13,
-    "flags": [
-      "ufc_longshot"
-    ]
-  },
-  "3320601|Mridul Saikia": {
-    "price": 0.095,
+    "price": 0.145,
     "flags": [
       "ufc_longshot",
       "ufc_mispricing"
     ]
   },
-  "3369989|Alik Lorenz": {
-    "price": 0.055,
+  "3320518|Matt Adams": {
+    "price": 0.135,
+    "flags": [
+      "ufc_longshot"
+    ]
+  },
+  "3320601|Mridul Saikia": {
+    "price": 0.09,
+    "flags": [
+      "sports_longshot",
+      "ufc_longshot",
+      "ufc_mispricing"
+    ]
+  },
+  "3369937|Trent Miller": {
+    "price": 0.0615,
     "flags": [
       "ufc_longshot",
       "ufc_mispricing"
