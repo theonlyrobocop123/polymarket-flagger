@@ -7,13 +7,21 @@
     ]
   },
   "3320518|Matt Adams": {
-    "price": 0.08,
+    "price": 0.09,
     "flags": [
       "ufc_longshot"
     ]
   },
   "3320601|Mridul Saikia": {
-    "price": 0.0495,
+    "price": 0.0555,
+    "flags": [
+      "sports_longshot",
+      "ufc_longshot",
+      "ufc_mispricing"
+    ]
+  },
+  "3320628|Ananias Mulumba": {
+    "price": 0.0005,
     "flags": [
       "sports_longshot",
       "ufc_longshot",
@@ -21,8 +29,9 @@
     ]
   },
   "3320659|Jon Kunneman": {
-    "price": 0.015,
+    "price": 0.003,
     "flags": [
+      "sports_longshot",
       "ufc_longshot"
     ]
   }
