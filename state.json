@@ -7,13 +7,19 @@
     ]
   },
   "3320518|Matt Adams": {
-    "price": 0.09,
+    "price": 0.095,
     "flags": [
       "ufc_longshot"
     ]
   },
+  "3320559|Abe Alsaghir": {
+    "price": 0.165,
+    "flags": [
+      "ufc_mispricing"
+    ]
+  },
   "3320601|Mridul Saikia": {
-    "price": 0.0555,
+    "price": 0.0005,
     "flags": [
       "sports_longshot",
       "ufc_longshot",
@@ -28,11 +34,10 @@
       "ufc_mispricing"
     ]
   },
-  "3320659|Jon Kunneman": {
-    "price": 0.003,
+  "3369989|Alik Lorenz": {
+    "price": 0.19,
     "flags": [
-      "sports_longshot",
-      "ufc_longshot"
+      "ufc_mispricing"
     ]
   }
 }
