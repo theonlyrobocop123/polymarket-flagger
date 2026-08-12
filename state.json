@@ -9,27 +9,13 @@
   "3320518|Matt Adams": {
     "price": 0.095,
     "flags": [
+      "sports_longshot",
       "ufc_longshot"
     ]
   },
-  "3320559|Abe Alsaghir": {
-    "price": 0.165,
+  "3320559|Fabrizio Escarrega": {
+    "price": 0.0745,
     "flags": [
-      "ufc_mispricing"
-    ]
-  },
-  "3320601|Mridul Saikia": {
-    "price": 0.0005,
-    "flags": [
-      "sports_longshot",
-      "ufc_longshot",
-      "ufc_mispricing"
-    ]
-  },
-  "3320628|Ananias Mulumba": {
-    "price": 0.0005,
-    "flags": [
-      "sports_longshot",
       "ufc_longshot",
       "ufc_mispricing"
     ]
