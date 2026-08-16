@@ -1,4 +1,11 @@
 {
+  "3275658|Kau\u00ea Fernandes": {
+    "price": 0.005,
+    "flags": [
+      "sports_longshot",
+      "ufc_longshot"
+    ]
+  },
   "3275700|Mansur Abdul-Malik": {
     "price": 0.0005,
     "flags": [
