@@ -1,6 +1,12 @@
 {
+  "3553034|Bella Mir": {
+    "price": 0.135,
+    "flags": [
+      "ufc_longshot"
+    ]
+  },
   "3553074|Gary Balletto": {
-    "price": 0.12,
+    "price": 0.115,
     "flags": [
       "ufc_longshot"
     ]
