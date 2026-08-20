@@ -14,7 +14,7 @@ Every 15 minutes it pulls the current sports markets from Polymarket, checks the
 The three flags:
 
 1. **UFC mispricing** - two fighters with similar career records, but the market prices one of them under 20%. (Uses real career records scraped from UFCStats.)
-2. **UFC longshot** - any UFC fighter priced under 10%.
+2. **UFC longshot** - any UFC fighter priced under 15%.
 3. **Sports longshot** - any sports outcome priced under 10%, as long as the market has real money in it (a liquidity floor).
 
 Sports currently scanned: **UFC/MMA only.**
@@ -80,7 +80,7 @@ The live bot picks up the change on its next run.
 
 **Change a threshold** (the %s, the record gap, the liquidity floor):
 Edit `polymarket_flagger/config.py`. Every number is there with a clear name, for example:
-- `flag2_ufc_threshold = 0.10` -> the UFC longshot cutoff (10%).
+- `flag2_ufc_threshold = 0.15` -> the UFC longshot cutoff (15%).
 - `flag3_sports_threshold = 0.10` -> the sports longshot cutoff (10%).
 - `flag3_min_liquidity = 5000.0` -> the "real money" floor.
 - `flag1_underdog_max = 0.20` -> the mispricing underdog cutoff (20%).

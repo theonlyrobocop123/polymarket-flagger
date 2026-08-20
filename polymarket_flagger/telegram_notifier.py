@@ -14,7 +14,7 @@ _SPORT_EMOJI = {
 }
 _FLAG_LABEL = {
     FLAG_MISPRICING: "UFC mispricing",
-    FLAG_UFC_LONGSHOT: "UFC longshot &lt;10%",
+    FLAG_UFC_LONGSHOT: "UFC longshot &lt;15%",
     FLAG_SPORTS_LONGSHOT: "Sports longshot &lt;10%",
 }
 

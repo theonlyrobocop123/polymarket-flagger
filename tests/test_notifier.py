@@ -44,9 +44,9 @@ def test_longshot_shows_record_detail_too():
     assert "A 25-1 (96%) vs B 5-10 (33%)" in msg
 
 
-def test_ufc_longshot_label_says_10_pct():
+def test_ufc_longshot_label_matches_threshold():
     msg = format_message("t", [_item(flags=[FLAG_UFC_LONGSHOT])], [])
-    assert "UFC longshot &lt;10%" in msg
+    assert "UFC longshot &lt;15%" in msg
 
 
 def test_empty_still_section_omitted():

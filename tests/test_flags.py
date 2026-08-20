@@ -44,15 +44,16 @@ def test_flag2_ufc_longshot():
 
 def test_flag2_boundary_not_below_threshold():
     cfg = Config()
-    # exactly 0.10 is NOT below 0.10
-    items = evaluate([_ufc_market([0.90, 0.10])], FakeStore({}), cfg)
+    # exactly 0.15 is NOT below 0.15
+    items = evaluate([_ufc_market([0.85, 0.15])], FakeStore({}), cfg)
     assert items == []
 
 
-def test_flag2_012_no_longer_fires_after_tightening_to_010():
+def test_flag2_fires_between_10_and_15_pct():
     cfg = Config()
     items = evaluate([_ufc_market([0.88, 0.12])], FakeStore({}), cfg)
-    assert items == []
+    assert len(items) == 1
+    assert items[0].flags == [FLAG_UFC_LONGSHOT]  # above the 10% sports-longshot cutoff
 
 
 def test_flag1_mispricing_similar_records():

@@ -19,7 +19,7 @@ class Config:
     flag1_gap_pct: float = 15.0
     flag1_min_fights: int = 4
     flag1_underdog_max: float = 0.20
-    flag2_ufc_threshold: float = 0.10
+    flag2_ufc_threshold: float = 0.15
     flag3_sports_threshold: float = 0.10
     flag3_min_liquidity: float = 5000.0
 
