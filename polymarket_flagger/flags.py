@@ -1,5 +1,7 @@
+from datetime import datetime, timezone
+
 from .models import (
-    Market, QualifyingItem,
+    Market, QualifyingItem, parse_game_start,
     FLAG_MISPRICING, FLAG_UFC_LONGSHOT, FLAG_SPORTS_LONGSHOT,
 )
 
@@ -31,9 +33,16 @@ def _record_detail(market, dog, ra, rb):
             f"{dogr.name} {dogr.wins}-{dogr.losses} ({round(dogr.win_pct)}%), {gap}-pt gap")
 
 
-def evaluate(markets, store, cfg):
+def evaluate(markets, store, cfg, now=None):
+    if now is None:
+        now = datetime.now(timezone.utc)
     items = []
     for market in markets:
+        # Odds are only actionable before the event begins. A market with no
+        # parseable start time is kept (fail open) rather than silently dropped.
+        start = parse_game_start(market.game_start_time)
+        if start is not None and now >= start:
+            continue
         flags_by_index = {}
 
         for i, price in enumerate(market.prices):

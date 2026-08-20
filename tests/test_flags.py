@@ -1,6 +1,8 @@
+from datetime import datetime, timezone
+
 from polymarket_flagger.config import Config
 from polymarket_flagger.models import (
-    Market, FighterRecord,
+    Market, FighterRecord, parse_game_start,
     FLAG_MISPRICING, FLAG_UFC_LONGSHOT, FLAG_SPORTS_LONGSHOT,
 )
 from polymarket_flagger.flags import evaluate
@@ -181,6 +183,57 @@ def test_flag3_three_way_market_two_cheap_outcomes_yields_two_items():
     assert outcomes == {"X", "Draw"}
     for it in items:
         assert FLAG_SPORTS_LONGSHOT in it.flags
+
+
+def test_started_event_is_not_flagged():
+    # Once the event has begun we no longer care about its odds.
+    cfg = Config()
+    m = _ufc_market([0.88, 0.12])
+    m.game_start_time = "2026-08-22 21:00:00+00"
+    now = datetime(2026, 8, 22, 21, 30, tzinfo=timezone.utc)  # 30 min after start
+    assert evaluate([m], FakeStore({}), cfg, now=now) == []
+
+
+def test_event_flagged_right_up_to_start():
+    cfg = Config()
+    m = _ufc_market([0.88, 0.12])
+    m.game_start_time = "2026-08-22 21:00:00+00"
+    now = datetime(2026, 8, 22, 20, 59, tzinfo=timezone.utc)  # 1 min before start
+    items = evaluate([m], FakeStore({}), cfg, now=now)
+    assert len(items) == 1 and FLAG_UFC_LONGSHOT in items[0].flags
+
+
+def test_event_at_exact_start_time_is_not_flagged():
+    cfg = Config()
+    m = _ufc_market([0.88, 0.12])
+    m.game_start_time = "2026-08-22 21:00:00+00"
+    now = datetime(2026, 8, 22, 21, 0, tzinfo=timezone.utc)
+    assert evaluate([m], FakeStore({}), cfg, now=now) == []
+
+
+def test_missing_or_bad_start_time_fails_open():
+    # No start time (or unparseable) -> keep flagging as before.
+    cfg = Config()
+    now = datetime(2026, 8, 22, 21, 30, tzinfo=timezone.utc)
+    m1 = _ufc_market([0.88, 0.12])                      # game_start_time defaults ""
+    m2 = _ufc_market([0.88, 0.12])
+    m2.game_start_time = "not-a-date"
+    items = evaluate([m1, m2], FakeStore({}), cfg, now=now)
+    assert len(items) == 2
+
+
+def test_parse_game_start_gamma_formats():
+    # Gamma sends "2026-08-22 21:00:00+00"; be liberal about ISO variants.
+    dt = parse_game_start("2026-08-22 21:00:00+00")
+    assert dt == datetime(2026, 8, 22, 21, 0, tzinfo=timezone.utc)
+    dt = parse_game_start("2026-08-22T21:00:00Z")
+    assert dt == datetime(2026, 8, 22, 21, 0, tzinfo=timezone.utc)
+    assert parse_game_start("") is None
+    assert parse_game_start(None) is None
+    assert parse_game_start("garbage") is None
+    # Naive timestamps are assumed UTC.
+    dt = parse_game_start("2026-08-22 21:00:00")
+    assert dt == datetime(2026, 8, 22, 21, 0, tzinfo=timezone.utc)
 
 
 def test_dedupe_multiple_flags_one_item():

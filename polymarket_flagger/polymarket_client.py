@@ -68,6 +68,7 @@ def parse_events(events, sport, ufc_tag_slugs):
                 liquidity=float(mk.get("liquidityNum") or 0.0),
                 event_slug=ev.get("slug", ""),
                 end_date=mk.get("endDate", ""),
+                game_start_time=mk.get("gameStartTime") or "",
                 is_ufc=is_ufc,
                 sport=sport,
             ))

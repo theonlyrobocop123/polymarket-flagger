@@ -1,4 +1,6 @@
+import re
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 
 # Flag identifiers (stored in state, so keep stable)
 FLAG_MISPRICING = "ufc_mispricing"
@@ -18,6 +20,26 @@ class Market:
     end_date: str
     is_ufc: bool
     sport: str                 # tag slug, e.g. "ufc", "nba", "soccer"
+    game_start_time: str = ""  # Gamma gameStartTime, e.g. "2026-08-22 21:00:00+00"
+
+
+def parse_game_start(raw) -> "datetime | None":
+    """Parse Gamma's gameStartTime into an aware UTC datetime, or None.
+
+    Gamma sends offsets like "+00" which datetime.fromisoformat rejects on the
+    Pythons we target, so hour-only offsets are widened to "+00:00". Naive
+    timestamps are assumed UTC.
+    """
+    if not raw or not isinstance(raw, str):
+        return None
+    text = re.sub(r"([+-]\d{2})$", r"\1:00", raw.strip().replace("Z", "+00:00"))
+    try:
+        dt = datetime.fromisoformat(text)
+    except ValueError:
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(timezone.utc)
 
 
 @dataclass

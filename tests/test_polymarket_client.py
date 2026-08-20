@@ -54,6 +54,31 @@ def test_parse_excludes_over_under_props():
     assert parse_events(events, sport="ufc", ufc_tag_slugs=("ufc",)) == []
 
 
+def test_parse_captures_game_start_time():
+    events = [
+        {"slug": "e", "tags": [{"slug": "ufc"}], "markets": [
+            {"id": "m", "question": "A vs. B",
+             "outcomes": "[\"A\", \"B\"]", "outcomePrices": "[\"0.5\", \"0.5\"]",
+             "volumeNum": 1.0, "liquidityNum": 1.0, "active": True, "closed": False,
+             "gameStartTime": "2026-08-22 21:00:00+00"},
+        ]},
+    ]
+    markets = parse_events(events, sport="ufc", ufc_tag_slugs=("ufc",))
+    assert markets[0].game_start_time == "2026-08-22 21:00:00+00"
+
+
+def test_parse_missing_game_start_time_is_empty_string():
+    events = [
+        {"slug": "e", "tags": [{"slug": "ufc"}], "markets": [
+            {"id": "m", "question": "A vs. B",
+             "outcomes": "[\"A\", \"B\"]", "outcomePrices": "[\"0.5\", \"0.5\"]",
+             "volumeNum": 1.0, "liquidityNum": 1.0, "active": True, "closed": False},
+        ]},
+    ]
+    markets = parse_events(events, sport="ufc", ufc_tag_slugs=("ufc",))
+    assert markets[0].game_start_time == ""
+
+
 def test_parse_missing_active_treated_as_truthy():
     # /events already filters active=true; a market lacking the field must be kept.
     events = [
