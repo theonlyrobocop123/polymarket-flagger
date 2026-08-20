@@ -14,7 +14,7 @@ _SPORT_EMOJI = {
 }
 _FLAG_LABEL = {
     FLAG_MISPRICING: "UFC mispricing",
-    FLAG_UFC_LONGSHOT: "UFC longshot &lt;15%",
+    FLAG_UFC_LONGSHOT: "UFC longshot &lt;10%",
     FLAG_SPORTS_LONGSHOT: "Sports longshot &lt;10%",
 }
 
@@ -30,13 +30,7 @@ def _money(v):
 
 
 def _flag_tags(item):
-    parts = []
-    for f in item.flags:
-        label = _FLAG_LABEL.get(f, f)
-        if f == FLAG_MISPRICING and item.record_detail:
-            label = f"{label} - {html.escape(item.record_detail)}"
-        parts.append(label)
-    return " · ".join(parts)
+    return " · ".join(_FLAG_LABEL.get(f, f) for f in item.flags)
 
 
 def _render_item(item, prev_price=None):
@@ -46,9 +40,11 @@ def _render_item(item, prev_price=None):
     price = _pct(item.price)
     was = f" (was {_pct(prev_price)})" if prev_price is not None else ""
     url = html.escape(f"https://polymarket.com/event/{item.event_slug}", quote=True)
+    records = f"📊 {html.escape(item.record_detail)}\n" if item.record_detail else ""
     return (
         f"{emoji} <b>{title}</b>\n"
         f"{outcome} <b>@ {price}</b>{was} · vol {_money(item.volume)} · liq {_money(item.liquidity)}\n"
+        f"{records}"
         f"Flags: {_flag_tags(item)}\n"
         f'🔗 <a href="{url}">Open on Polymarket</a>'
     )

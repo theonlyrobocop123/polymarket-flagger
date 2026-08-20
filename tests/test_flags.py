@@ -37,15 +37,21 @@ def test_flag3_sports_longshot_respects_liquidity_floor():
 
 def test_flag2_ufc_longshot():
     cfg = Config()
-    items = evaluate([_ufc_market([0.88, 0.12])], FakeStore({}), cfg)
+    items = evaluate([_ufc_market([0.92, 0.08])], FakeStore({}), cfg)
     assert FLAG_UFC_LONGSHOT in items[0].flags
     assert items[0].flagged_outcome == "B"
 
 
 def test_flag2_boundary_not_below_threshold():
     cfg = Config()
-    # exactly 0.15 is NOT below 0.15
-    items = evaluate([_ufc_market([0.85, 0.15])], FakeStore({}), cfg)
+    # exactly 0.10 is NOT below 0.10
+    items = evaluate([_ufc_market([0.90, 0.10])], FakeStore({}), cfg)
+    assert items == []
+
+
+def test_flag2_012_no_longer_fires_after_tightening_to_010():
+    cfg = Config()
+    items = evaluate([_ufc_market([0.88, 0.12])], FakeStore({}), cfg)
     assert items == []
 
 
@@ -188,7 +194,7 @@ def test_flag3_three_way_market_two_cheap_outcomes_yields_two_items():
 def test_started_event_is_not_flagged():
     # Once the event has begun we no longer care about its odds.
     cfg = Config()
-    m = _ufc_market([0.88, 0.12])
+    m = _ufc_market([0.92, 0.08])
     m.game_start_time = "2026-08-22 21:00:00+00"
     now = datetime(2026, 8, 22, 21, 30, tzinfo=timezone.utc)  # 30 min after start
     assert evaluate([m], FakeStore({}), cfg, now=now) == []
@@ -196,7 +202,7 @@ def test_started_event_is_not_flagged():
 
 def test_event_flagged_right_up_to_start():
     cfg = Config()
-    m = _ufc_market([0.88, 0.12])
+    m = _ufc_market([0.92, 0.08])
     m.game_start_time = "2026-08-22 21:00:00+00"
     now = datetime(2026, 8, 22, 20, 59, tzinfo=timezone.utc)  # 1 min before start
     items = evaluate([m], FakeStore({}), cfg, now=now)
@@ -205,7 +211,7 @@ def test_event_flagged_right_up_to_start():
 
 def test_event_at_exact_start_time_is_not_flagged():
     cfg = Config()
-    m = _ufc_market([0.88, 0.12])
+    m = _ufc_market([0.92, 0.08])
     m.game_start_time = "2026-08-22 21:00:00+00"
     now = datetime(2026, 8, 22, 21, 0, tzinfo=timezone.utc)
     assert evaluate([m], FakeStore({}), cfg, now=now) == []
@@ -215,11 +221,47 @@ def test_missing_or_bad_start_time_fails_open():
     # No start time (or unparseable) -> keep flagging as before.
     cfg = Config()
     now = datetime(2026, 8, 22, 21, 30, tzinfo=timezone.utc)
-    m1 = _ufc_market([0.88, 0.12])                      # game_start_time defaults ""
-    m2 = _ufc_market([0.88, 0.12])
+    m1 = _ufc_market([0.92, 0.08])                      # game_start_time defaults ""
+    m2 = _ufc_market([0.92, 0.08])
     m2.game_start_time = "not-a-date"
     items = evaluate([m1, m2], FakeStore({}), cfg, now=now)
     assert len(items) == 2
+
+
+def test_longshot_item_shows_both_fighter_records():
+    # Records are shown on EVERY UFC flag, not just mispricing.
+    cfg = Config()
+    store = FakeStore({
+        "A": FighterRecord("A", "", 25, 1, 0),   # 96% - big gap, so no mispricing
+        "B": FighterRecord("B", "", 5, 10, 0),   # 33%
+    })
+    items = evaluate([_ufc_market([0.92, 0.08])], store, cfg)
+    assert items[0].flags == [FLAG_SPORTS_LONGSHOT, FLAG_UFC_LONGSHOT]
+    assert "A 25-1 (96%)" in items[0].record_detail
+    assert "B 5-10 (33%)" in items[0].record_detail
+
+
+def test_longshot_item_with_one_unknown_fighter_shows_partial_records():
+    cfg = Config()
+    store = FakeStore({"A": FighterRecord("A", "", 25, 1, 0)})  # B unknown
+    items = evaluate([_ufc_market([0.92, 0.08])], store, cfg)
+    assert "A 25-1 (96%)" in items[0].record_detail
+    assert "B record unknown" in items[0].record_detail
+
+
+def test_longshot_item_with_no_known_fighters_has_empty_detail():
+    cfg = Config()
+    items = evaluate([_ufc_market([0.92, 0.08])], FakeStore({}), cfg)
+    assert items[0].record_detail == ""
+
+
+def test_non_ufc_item_has_no_record_detail():
+    cfg = Config()
+    m = Market(id="s1", title="X vs Y - Draw", outcomes=["X", "Draw", "Y"],
+               prices=[0.5, 0.06, 0.44], volume=1.0, liquidity=6000.0,
+               event_slug="x-y", end_date="", is_ufc=False, sport="soccer")
+    items = evaluate([m], FakeStore({}), cfg)
+    assert items[0].record_detail == ""
 
 
 def test_parse_game_start_gamma_formats():

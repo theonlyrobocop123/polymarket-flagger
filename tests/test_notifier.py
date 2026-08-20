@@ -37,6 +37,18 @@ def test_mispricing_shows_record_detail():
     assert "UFC mispricing" in msg
 
 
+def test_longshot_shows_record_detail_too():
+    # Record line renders for any item that has one, not only mispricing.
+    item = _item(flags=[FLAG_UFC_LONGSHOT], record_detail="A 25-1 (96%) vs B 5-10 (33%)")
+    msg = format_message("t", [item], [])
+    assert "A 25-1 (96%) vs B 5-10 (33%)" in msg
+
+
+def test_ufc_longshot_label_says_10_pct():
+    msg = format_message("t", [_item(flags=[FLAG_UFC_LONGSHOT])], [])
+    assert "UFC longshot &lt;10%" in msg
+
+
 def test_empty_still_section_omitted():
     msg = format_message("t", [_item()], [])
     assert "STILL QUALIFYING" not in msg

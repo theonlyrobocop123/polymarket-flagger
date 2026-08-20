@@ -9,7 +9,7 @@ class FakeStore:
 
 
 def _ufc_longshot_market():
-    return Market(id="m1", title="A vs. B", outcomes=["A", "B"], prices=[0.9, 0.1],
+    return Market(id="m1", title="A vs. B", outcomes=["A", "B"], prices=[0.92, 0.08],
                   volume=1000.0, liquidity=20000.0, event_slug="a-b", end_date="",
                   is_ufc=True, sport="ufc")
 

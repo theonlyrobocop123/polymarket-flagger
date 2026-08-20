@@ -24,13 +24,23 @@ def _mispricing_index(market: Market, store, cfg):
     return dog, ra, rb
 
 
-def _record_detail(market, dog, ra, rb):
-    recs = [ra, rb]
-    fav = recs[1 - dog]
-    dogr = recs[dog]
-    gap = round(abs(ra.win_pct - rb.win_pct))
-    return (f"{fav.name} {fav.wins}-{fav.losses} ({round(fav.win_pct)}%) vs "
-            f"{dogr.name} {dogr.wins}-{dogr.losses} ({round(dogr.win_pct)}%), {gap}-pt gap")
+def _fighter_str(outcome_name, rec):
+    if rec is None:
+        return f"{outcome_name} record unknown"
+    return f"{rec.name} {rec.wins}-{rec.losses} ({round(rec.win_pct)}%)"
+
+
+def _records_detail(market, store, gap=None):
+    """W-L and win rate for both fighters, in outcome order. "" if neither is known."""
+    ra = store.lookup(market.outcomes[0])
+    rb = store.lookup(market.outcomes[1])
+    if ra is None and rb is None:
+        return ""
+    detail = (f"{_fighter_str(market.outcomes[0], ra)} vs "
+              f"{_fighter_str(market.outcomes[1], rb)}")
+    if gap is not None:
+        detail += f", {gap}-pt gap"
+    return detail
 
 
 def evaluate(markets, store, cfg, now=None):
@@ -58,9 +68,12 @@ def evaluate(markets, store, cfg, now=None):
         if mis is not None:
             dog, ra, rb = mis
             flags_by_index.setdefault(dog, []).append(FLAG_MISPRICING)
-            detail_map = {dog: _record_detail(market, dog, ra, rb)}
-        else:
-            detail_map = {}
+
+        # Fighter records are shown on every UFC flag, not only mispricing.
+        detail = ""
+        if flags_by_index and market.is_ufc and len(market.outcomes) == 2:
+            gap = round(abs(mis[1].win_pct - mis[2].win_pct)) if mis is not None else None
+            detail = _records_detail(market, store, gap)
 
         for i, flags in flags_by_index.items():
             items.append(QualifyingItem(
@@ -74,6 +87,6 @@ def evaluate(markets, store, cfg, now=None):
                 sport=market.sport,
                 is_ufc=market.is_ufc,
                 flags=flags,
-                record_detail=detail_map.get(i, ""),
+                record_detail=detail,
             ))
     return items
