@@ -45,10 +45,10 @@ def test_longshot_shows_record_detail_too():
 
 
 def test_entry_detail_renders_when_present():
-    item = _item(entry_detail="now 12% · VWAP 13.5% (24h) / 14.2% (7d) · 7d range 9-16% · trend ↓ → limit @ 11%")
+    item = _item(entry_detail="now 12% · VWAP 13.5% (24h) / 14.2% (7d) · 7d range 9-16%")
     msg = format_message("t", [item], [])
     assert "📈 now 12%" in msg
-    assert "limit @ 11%" in msg
+    assert "7d range 9-16%" in msg
 
 
 def test_no_entry_line_when_detail_empty():

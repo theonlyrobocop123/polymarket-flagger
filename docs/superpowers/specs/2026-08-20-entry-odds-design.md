@@ -1,13 +1,16 @@
-# Entry Odds Advice - Design
+# Entry Odds Context - Design
 
 Date: 2026-08-20.
-Status: approved by Ricardo, ready for implementation.
+Status: implemented.
+Revised 2026-08-21 per Ricardo: the trend classification and entry recommendation were removed.
+The line is now pure factual context; Ricardo makes the entry decision himself.
 
 ## Purpose
 
-Every Telegram alert gains one line that helps decide what odds to enter at.
+Every Telegram alert gains one line of execution context: the current price against recent volume-weighted trading and the recent range.
 It is an execution aid ("is now a good fill given recent trading"), not extra evidence that the bet itself is good.
 The existing flags remain the only value filter.
+It applies to every flagged item regardless of which flag fired.
 
 ## Data sources
 
@@ -25,41 +28,30 @@ Trades are normalized to the flagged outcome.
 In a binary market both tokens are the same economic instrument, so a trade on the other outcome at price p counts as a flagged-outcome trade at 1 - p.
 
 - 24h VWAP and 7d VWAP: sum(price x size) / sum(size) over trades in the window.
-- 24h net change, 24h low, 7d range: from the hourly midpoint series.
-- Trend: EMA-8 vs EMA-21 on hourly closes.
-  - Rising: EMA-8 > EMA-21 and 24h change >= +1pt.
-  - Falling: EMA-8 < EMA-21 and 24h change <= -1pt.
-  - Flat: everything else.
-
-## Recommendation rule
-
-- Rising: enter now at market (the edge is eroding; the flag already confirmed the price qualifies).
-- Flat: enter now if current <= 24h VWAP, otherwise rest a limit at the 24h VWAP.
-- Falling: rest a limit at the 24h low, so a fill only happens into continued weakness.
+- 7d range: min and max of the hourly midpoint series.
 
 ## Message format
 
 One line per alert item, shown on new, still-qualifying, and preview items:
 
 ```
-📈 now 12% · VWAP 13.5% (24h) / 14.2% (7d) · 7d range 9-16% · trend ↓ → limit @ 11%
+📈 now 12% · VWAP 13.5% (24h) / 14.2% (7d) · 7d range 9-16%
 ```
 
-Trend arrows: ↑ rising, ↔ flat, ↓ falling.
-Suggestions render as "enter now" or "limit @ X%".
+## Degradation (per component, fail soft)
 
-## Failure handling (fail open)
+UFC prelim markets trade thinly, so each component degrades independently instead of gating the whole line:
 
-The alert still goes out without the entry line when:
-
-- either endpoint fails or times out,
-- fewer than 5 trades exist in the last 24h,
-- the hourly series is too short for the EMAs.
+- A VWAP with no trades in its window renders as "n/a".
+- The 7d range is omitted when the price history has fewer than 2 points.
+- The whole line is omitted only when there are no trades and no history at all, or an endpoint fails.
+- A failure never blocks or delays the alert itself.
 
 Trade pagination is capped (500 per page, at most 8 pages) so a runaway market cannot stall the cycle.
 
 ## Non-goals
 
+- No entry recommendation, trend call, or suggested limit price (removed in the 2026-08-21 revision).
 - No fair-value model of the odds; the line never claims the bet is mispriced.
 - No storage of odds history in bot state.
 - No change to flag thresholds or dedupe behavior.

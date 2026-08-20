@@ -1,7 +1,10 @@
-"""Entry-odds advice: VWAP, trend, and a suggested entry for flagged outcomes.
+"""Entry-odds context: current price vs recent VWAPs and the 7d range.
 
-This is an execution aid ("is now a good fill given recent trading"), never a
-fair-value claim. Full methodology: docs/superpowers/specs/2026-08-20-entry-odds-design.md
+Pure factual context to judge a fill against, never a recommendation or a
+fair-value claim. Components that cannot be computed from the available data
+render as "n/a" or are omitted; the line only disappears entirely when there
+is no trade or price history at all.
+Methodology: docs/superpowers/specs/2026-08-20-entry-odds-design.md
 """
 import logging
 import time
@@ -13,9 +16,6 @@ log = logging.getLogger(__name__)
 
 DAY = 86_400
 WEEK = 7 * DAY
-MIN_TRADES_24H = 5      # below this the VWAP is noise; skip the advice line
-MIN_HISTORY_POINTS = 22  # EMA-21 needs a run-up; below this trend is meaningless
-TREND_MOVE_PT = 0.01    # 24h net move needed (in price units) to call a trend
 TRADES_PAGE = 500
 TRADES_MAX_PAGES = 8    # hard cap so a runaway market cannot stall the cycle
 
@@ -26,13 +26,9 @@ CLOB_API = "https://clob.polymarket.com"
 @dataclass
 class EntryAdvice:
     now_price: float
-    vwap24: float
-    vwap7d: float
-    low24: float
-    range7d: tuple
-    trend: str               # "rising" | "flat" | "falling"
-    action: str              # "enter now" | "limit"
-    limit_price: "float | None"
+    vwap24: "float | None"
+    vwap7d: "float | None"
+    range7d: "tuple | None"
 
 
 def normalize_trades(trades, flagged_outcome, other_outcome):
@@ -64,52 +60,19 @@ def _vwap(trades, since_ts):
     return (num / den) if den else None
 
 
-def _ema(values, span):
-    alpha = 2.0 / (span + 1)
-    ema = values[0]
-    for v in values[1:]:
-        ema = alpha * v + (1 - alpha) * ema
-    return ema
-
-
 def compute_entry(trades, history, now_price, flagged_outcome, other_outcome, now_ts):
-    """Pure computation. Returns EntryAdvice, or None when data is too thin."""
+    """Pure computation. Returns EntryAdvice, or None when there is no data at all."""
     norm = normalize_trades(trades, flagged_outcome, other_outcome)
-    if len([t for t in norm if t[0] >= now_ts - DAY]) < MIN_TRADES_24H:
-        return None
-
-    points = sorted((int(h["t"]), float(h["p"])) for h in (history or []))
-    points = [p for p in points if p[0] >= now_ts - WEEK]
-    prices = [p for _, p in points]
-    last24 = [p for ts, p in points if ts >= now_ts - DAY]
-    if len(prices) < MIN_HISTORY_POINTS or len(last24) < 2:
-        return None
-
     vwap24 = _vwap(norm, now_ts - DAY)
     vwap7d = _vwap(norm, now_ts - WEEK)
-    change24 = prices[-1] - last24[0]
-    low24 = min(last24)
-    ema8, ema21 = _ema(prices, 8), _ema(prices, 21)
 
-    if ema8 > ema21 and change24 >= TREND_MOVE_PT:
-        trend = "rising"
-    elif ema8 < ema21 and change24 <= -TREND_MOVE_PT:
-        trend = "falling"
-    else:
-        trend = "flat"
+    prices = [float(h["p"]) for h in (history or [])
+              if int(h["t"]) >= now_ts - WEEK]
+    range7d = (min(prices), max(prices)) if len(prices) >= 2 else None
 
-    if trend == "rising":
-        action, limit_price = "enter now", None
-    elif trend == "flat":
-        if now_price <= vwap24:
-            action, limit_price = "enter now", None
-        else:
-            action, limit_price = "limit", vwap24
-    else:  # falling: only get filled into continued weakness
-        action, limit_price = "limit", low24
-
-    return EntryAdvice(now_price, vwap24, vwap7d, low24,
-                       (min(prices), max(prices)), trend, action, limit_price)
+    if vwap7d is None and range7d is None:
+        return None
+    return EntryAdvice(now_price, vwap24, vwap7d, range7d)
 
 
 def _pct(p):
@@ -117,11 +80,14 @@ def _pct(p):
 
 
 def format_entry(a):
-    lo, hi = a.range7d
-    arrow = {"rising": "↑", "flat": "↔", "falling": "↓"}[a.trend]
-    tail = "enter now" if a.action == "enter now" else f"limit @ {_pct(a.limit_price)}"
-    return (f"now {_pct(a.now_price)} · VWAP {_pct(a.vwap24)} (24h) / {_pct(a.vwap7d)} (7d) · "
-            f"7d range {_pct(lo)[:-1]}-{_pct(hi)} · trend {arrow} → {tail}")
+    parts = [f"now {_pct(a.now_price)}"]
+    v24 = _pct(a.vwap24) if a.vwap24 is not None else "n/a"
+    v7d = _pct(a.vwap7d) if a.vwap7d is not None else "n/a"
+    parts.append(f"VWAP {v24} (24h) / {v7d} (7d)")
+    if a.range7d is not None:
+        lo, hi = a.range7d
+        parts.append(f"7d range {_pct(lo)[:-1]}-{_pct(hi)}")
+    return " · ".join(parts)
 
 
 def fetch_trades(condition_id, since_ts):
