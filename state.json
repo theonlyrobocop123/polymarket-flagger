@@ -19,9 +19,16 @@
     ]
   },
   "3648467|Terrance Chatman": {
-    "price": 0.125,
+    "price": 0.12,
     "flags": [
       "ufc_longshot"
+    ]
+  },
+  "3731629|Liam McCracken": {
+    "price": 0.065,
+    "flags": [
+      "ufc_longshot",
+      "ufc_mispricing"
     ]
   }
 }
