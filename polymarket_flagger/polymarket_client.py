@@ -69,6 +69,8 @@ def parse_events(events, sport, ufc_tag_slugs):
                 event_slug=ev.get("slug", ""),
                 end_date=mk.get("endDate", ""),
                 game_start_time=mk.get("gameStartTime") or "",
+                condition_id=mk.get("conditionId") or "",
+                clob_token_ids=[str(t) for t in _parse_json_field(mk.get("clobTokenIds"), [])],
                 is_ufc=is_ufc,
                 sport=sport,
             ))

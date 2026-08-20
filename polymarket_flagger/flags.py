@@ -88,5 +88,8 @@ def evaluate(markets, store, cfg, now=None):
                 is_ufc=market.is_ufc,
                 flags=flags,
                 record_detail=detail,
+                condition_id=market.condition_id,
+                clob_token_id=market.clob_token_ids[i] if i < len(market.clob_token_ids) else "",
+                other_outcome=market.outcomes[1 - i] if len(market.outcomes) == 2 else "",
             ))
     return items

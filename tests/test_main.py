@@ -64,6 +64,54 @@ def test_preview_sends_even_when_nothing_qualifies(tmp_path, monkeypatch):
     assert "0" in sent["text"]
 
 
+def test_run_cycle_enriches_alerted_items_with_entry_advice(tmp_path, monkeypatch):
+    cfg = Config(state_path=str(tmp_path / "state.json"))
+    sent = {}
+
+    def fake_send(c, text):
+        sent["text"] = text
+        return True
+
+    monkeypatch.setattr(main_mod, "send", fake_send)
+    fake_advise = lambda c, item: "now 8% · trend ↑ → enter now"
+    assert main_mod.run_cycle(cfg, lambda c: [_ufc_longshot_market()], FakeStore({}), "now",
+                              advise_fn=fake_advise) is True
+    assert "📈 now 8%" in sent["text"]
+
+
+def test_run_cycle_survives_advise_failure(tmp_path, monkeypatch):
+    # Entry advice is best-effort; an exception must not block the alert.
+    cfg = Config(state_path=str(tmp_path / "state.json"))
+    sent = {}
+
+    def fake_send(c, text):
+        sent["text"] = text
+        return True
+
+    def boom(c, item):
+        raise RuntimeError("api down")
+
+    monkeypatch.setattr(main_mod, "send", fake_send)
+    assert main_mod.run_cycle(cfg, lambda c: [_ufc_longshot_market()], FakeStore({}), "now",
+                              advise_fn=boom) is True
+    assert "📈" not in sent["text"]
+
+
+def test_preview_enriches_items_too(tmp_path, monkeypatch):
+    cfg = Config(state_path=str(tmp_path / "state.json"))
+    sent = {}
+
+    def fake_send(c, text):
+        sent["text"] = text
+        return True
+
+    monkeypatch.setattr(main_mod, "send", fake_send)
+    fake_advise = lambda c, item: "now 8% · trend ↑ → enter now"
+    assert main_mod.run_preview(cfg, lambda c: [_ufc_longshot_market()], FakeStore({}), "now",
+                                advise_fn=fake_advise) is True
+    assert "📈 now 8%" in sent["text"]
+
+
 def test_run_cycle_does_not_save_when_send_fails(tmp_path, monkeypatch):
     cfg = Config(state_path=str(tmp_path / "state.json"))
     monkeypatch.setattr(main_mod, "send", lambda c, text: False)

@@ -44,6 +44,18 @@ def test_longshot_shows_record_detail_too():
     assert "A 25-1 (96%) vs B 5-10 (33%)" in msg
 
 
+def test_entry_detail_renders_when_present():
+    item = _item(entry_detail="now 12% · VWAP 13.5% (24h) / 14.2% (7d) · 7d range 9-16% · trend ↓ → limit @ 11%")
+    msg = format_message("t", [item], [])
+    assert "📈 now 12%" in msg
+    assert "limit @ 11%" in msg
+
+
+def test_no_entry_line_when_detail_empty():
+    msg = format_message("t", [_item()], [])
+    assert "📈" not in msg
+
+
 def test_ufc_longshot_label_matches_threshold():
     msg = format_message("t", [_item(flags=[FLAG_UFC_LONGSHOT])], [])
     assert "UFC longshot &lt;15%" in msg

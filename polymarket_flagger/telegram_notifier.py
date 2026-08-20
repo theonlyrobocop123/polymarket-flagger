@@ -41,10 +41,12 @@ def _render_item(item, prev_price=None):
     was = f" (was {_pct(prev_price)})" if prev_price is not None else ""
     url = html.escape(f"https://polymarket.com/event/{item.event_slug}", quote=True)
     records = f"📊 {html.escape(item.record_detail)}\n" if item.record_detail else ""
+    entry = f"📈 {html.escape(item.entry_detail)}\n" if item.entry_detail else ""
     return (
         f"{emoji} <b>{title}</b>\n"
         f"{outcome} <b>@ {price}</b>{was} · vol {_money(item.volume)} · liq {_money(item.liquidity)}\n"
         f"{records}"
+        f"{entry}"
         f"Flags: {_flag_tags(item)}\n"
         f'🔗 <a href="{url}">Open on Polymarket</a>'
     )

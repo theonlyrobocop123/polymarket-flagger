@@ -21,6 +21,8 @@ class Market:
     is_ufc: bool
     sport: str                 # tag slug, e.g. "ufc", "nba", "soccer"
     game_start_time: str = ""  # Gamma gameStartTime, e.g. "2026-08-22 21:00:00+00"
+    condition_id: str = ""     # Gamma conditionId, keys the trade-history API
+    clob_token_ids: list = field(default_factory=list)  # aligned with outcomes
 
 
 def parse_game_start(raw) -> "datetime | None":
@@ -72,7 +74,11 @@ class QualifyingItem:
     sport: str
     is_ufc: bool
     flags: list[str] = field(default_factory=list)
-    record_detail: str = ""    # populated for FLAG_MISPRICING
+    record_detail: str = ""    # W-L + win rate for both fighters (UFC markets)
+    condition_id: str = ""
+    clob_token_id: str = ""    # token of the flagged outcome
+    other_outcome: str = ""    # the opposing outcome in a 2-way market
+    entry_detail: str = ""     # entry-odds advice line, best-effort
 
     @property
     def key(self) -> str:

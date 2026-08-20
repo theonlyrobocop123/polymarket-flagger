@@ -2,6 +2,7 @@ import logging
 from datetime import datetime, timezone
 
 from .config import Config
+from .entry_odds import advise as advise_entry
 from .polymarket_client import fetch_markets
 from .fighter_store import FighterStore
 from .flags import evaluate
@@ -12,7 +13,16 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 log = logging.getLogger("polymarket_flagger")
 
 
-def run_cycle(cfg, client_fn, store, now_str):
+def _enrich_entry(items, cfg, advise_fn):
+    """Attach best-effort entry-odds advice; a failure never blocks the alert."""
+    for it in items:
+        try:
+            it.entry_detail = advise_fn(cfg, it)
+        except Exception as exc:
+            log.warning("Entry advice failed for %s: %s", it.key, exc)
+
+
+def run_cycle(cfg, client_fn, store, now_str, advise_fn=advise_entry):
     """Run one evaluation cycle. Returns True if a Telegram message was sent."""
     markets = client_fn(cfg)
     log.info("Fetched %d markets", len(markets))
@@ -26,6 +36,7 @@ def run_cycle(cfg, client_fn, store, now_str):
     if not new_items:
         return False  # only alert on NEW; do not advance state on silent cycles
 
+    _enrich_entry(new_items + [it for it, _ in still_items], cfg, advise_fn)
     text = format_message(now_str, new_items, still_items)
     if not send(cfg, text):
         log.error("Send failed; state not advanced so NEW items are retried next cycle.")
@@ -35,13 +46,14 @@ def run_cycle(cfg, client_fn, store, now_str):
     return True
 
 
-def run_preview(cfg, client_fn, store, now_str):
+def run_preview(cfg, client_fn, store, now_str, advise_fn=advise_entry):
     """Send a snapshot of everything currently qualifying. Never reads or writes
     state, so it cannot swallow a pending NEW alert. Always sends, even when
     nothing qualifies, so an explicit preview request is never silent."""
     markets = client_fn(cfg)
     items = evaluate(markets, store, cfg)
     log.info("Preview: %d markets, %d qualifying", len(markets), len(items))
+    _enrich_entry(items, cfg, advise_fn)
     return send(cfg, format_preview(now_str, items))
 
 

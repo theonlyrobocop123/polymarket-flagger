@@ -265,6 +265,16 @@ def test_non_ufc_item_has_no_record_detail():
     assert items[0].record_detail == ""
 
 
+def test_items_carry_condition_id_and_flagged_outcome_token():
+    cfg = Config()
+    m = _ufc_market([0.92, 0.08])
+    m.condition_id = "0xabc"
+    m.clob_token_ids = ["111", "222"]
+    items = evaluate([m], FakeStore({}), cfg)
+    assert items[0].condition_id == "0xabc"
+    assert items[0].clob_token_id == "222"  # token of the flagged outcome "B"
+
+
 def test_parse_game_start_gamma_formats():
     # Gamma sends "2026-08-22 21:00:00+00"; be liberal about ISO variants.
     dt = parse_game_start("2026-08-22 21:00:00+00")

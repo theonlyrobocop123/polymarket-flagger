@@ -54,6 +54,20 @@ def test_parse_excludes_over_under_props():
     assert parse_events(events, sport="ufc", ufc_tag_slugs=("ufc",)) == []
 
 
+def test_parse_captures_condition_id_and_clob_token_ids():
+    events = [
+        {"slug": "e", "tags": [{"slug": "ufc"}], "markets": [
+            {"id": "m", "question": "A vs. B",
+             "outcomes": "[\"A\", \"B\"]", "outcomePrices": "[\"0.5\", \"0.5\"]",
+             "volumeNum": 1.0, "liquidityNum": 1.0, "active": True, "closed": False,
+             "conditionId": "0xabc", "clobTokenIds": "[\"111\", \"222\"]"},
+        ]},
+    ]
+    m = parse_events(events, sport="ufc", ufc_tag_slugs=("ufc",))[0]
+    assert m.condition_id == "0xabc"
+    assert m.clob_token_ids == ["111", "222"]
+
+
 def test_parse_captures_game_start_time():
     events = [
         {"slug": "e", "tags": [{"slug": "ufc"}], "markets": [

@@ -30,7 +30,13 @@ You only get pinged when something NEW qualifies.
 The same alert also lists markets that still qualify, with their updated percentages and a "(was X%)" so you can see movement.
 Quiet cycles send nothing.
 
-The message shows, per flagged bet: the sport, the market, the cheap side and its %, the volume and liquidity, which flags it hit, the fighter records (for mispricing), and a clickable Polymarket link.
+The message shows, per flagged bet: the sport, the market, the cheap side and its %, the volume and liquidity, which flags it hit, the fighter records (W-L and win rate for both fighters), an entry-odds advice line, and a clickable Polymarket link.
+
+The entry-odds line (`entry_odds.py`) is an execution aid, not a value signal.
+It compares the current price to the 24h and 7d volume-weighted average trade price (VWAP), shows the 7d range, and classifies the trend from hourly EMA-8 vs EMA-21.
+Rule: rising -> enter now; flat -> enter now if at/below the 24h VWAP, else limit at the VWAP; falling -> limit at the 24h low.
+If the trade or price history APIs fail or have too little data, the alert simply goes out without this line.
+Full methodology: `docs/superpowers/specs/2026-08-20-entry-odds-design.md`.
 
 ---
 
