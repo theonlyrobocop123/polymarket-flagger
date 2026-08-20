@@ -66,6 +66,17 @@ def format_message(now_str, new_items, still_items):
     return "\n".join(lines).strip()
 
 
+def format_preview(now_str, items):
+    """On-demand snapshot of everything currently qualifying (no NEW/STILL split)."""
+    lines = [f"👀 <b>Polymarket Flags PREVIEW</b> · {html.escape(now_str)}", ""]
+    lines.append(f"Currently qualifying: <b>{len(items)}</b>")
+    lines.append("")
+    for it in items:
+        lines.append(_render_item(it))
+        lines.append("")
+    return "\n".join(lines).strip()
+
+
 def send(cfg, text):
     if not cfg.telegram_token or not cfg.telegram_chat_id:
         log.error("Telegram credentials missing; cannot send.")

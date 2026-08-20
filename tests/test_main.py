@@ -29,6 +29,41 @@ def test_run_cycle_sends_on_new_and_saves_state(tmp_path, monkeypatch):
     assert sent == {}
 
 
+def test_preview_sends_all_current_items_without_touching_state(tmp_path, monkeypatch):
+    # Preview mode: snapshot of everything currently qualifying, no dedupe, no state writes.
+    cfg = Config(state_path=str(tmp_path / "state.json"))
+    sent = {}
+
+    def fake_send(c, text):
+        sent["text"] = text
+        return True
+
+    monkeypatch.setattr(main_mod, "send", fake_send)
+    assert main_mod.run_preview(cfg, lambda c: [_ufc_longshot_market()], FakeStore({}), "now") is True
+    assert "PREVIEW" in sent["text"]
+    assert "A vs. B" in sent["text"]
+    assert not (tmp_path / "state.json").exists()  # state untouched
+
+    # A normal cycle afterwards still treats the item as NEW.
+    sent.clear()
+    assert main_mod.run_cycle(cfg, lambda c: [_ufc_longshot_market()], FakeStore({}), "now") is True
+    assert "NEW (1)" in sent["text"]
+
+
+def test_preview_sends_even_when_nothing_qualifies(tmp_path, monkeypatch):
+    # An explicit preview request always answers, so silence is never ambiguous.
+    cfg = Config(state_path=str(tmp_path / "state.json"))
+    sent = {}
+
+    def fake_send(c, text):
+        sent["text"] = text
+        return True
+
+    monkeypatch.setattr(main_mod, "send", fake_send)
+    assert main_mod.run_preview(cfg, lambda c: [], FakeStore({}), "now") is True
+    assert "0" in sent["text"]
+
+
 def test_run_cycle_does_not_save_when_send_fails(tmp_path, monkeypatch):
     cfg = Config(state_path=str(tmp_path / "state.json"))
     monkeypatch.setattr(main_mod, "send", lambda c, text: False)

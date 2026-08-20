@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: "*/15 * * * *"
   workflow_dispatch:
+    inputs:
+      preview:
+        description: "Send a snapshot of everything currently qualifying (no state change)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -35,7 +40,7 @@ jobs:
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python -m polymarket_flagger.main
+        run: python -m polymarket_flagger.main ${{ inputs.preview && '--preview' || '' }}
 
       - name: Persist state to bot-state branch
         run: |
