@@ -1,18 +1,18 @@
 {
   "3431786|Elise Reed": {
-    "price": 0.135,
-    "flags": [
-      "ufc_longshot"
-    ]
-  },
-  "3553074|Gary Balletto": {
     "price": 0.125,
     "flags": [
       "ufc_longshot"
     ]
   },
+  "3553074|Gary Balletto": {
+    "price": 0.135,
+    "flags": [
+      "ufc_longshot"
+    ]
+  },
   "3648447|Ryan Kuse": {
-    "price": 0.145,
+    "price": 0.135,
     "flags": [
       "ufc_longshot",
       "ufc_mispricing"
@@ -24,17 +24,16 @@
       "ufc_longshot"
     ]
   },
-  "3731629|Silvestre Sanchez": {
+  "3731639|Charlie Cleveland": {
     "price": 0.07,
     "flags": [
       "ufc_longshot",
       "ufc_mispricing"
     ]
   },
-  "3731639|Charlie Cleveland": {
-    "price": 0.065,
+  "3768845|Nilson Rojas": {
+    "price": 0.19,
     "flags": [
-      "ufc_longshot",
       "ufc_mispricing"
     ]
   }
