@@ -6,7 +6,7 @@
     ]
   },
   "3553074|Gary Balletto": {
-    "price": 0.105,
+    "price": 0.125,
     "flags": [
       "ufc_longshot"
     ]
@@ -19,12 +19,19 @@
     ]
   },
   "3648467|Terrance Chatman": {
-    "price": 0.12,
+    "price": 0.115,
     "flags": [
       "ufc_longshot"
     ]
   },
   "3731629|Liam McCracken": {
+    "price": 0.095,
+    "flags": [
+      "ufc_longshot",
+      "ufc_mispricing"
+    ]
+  },
+  "3731639|Charlie Cleveland": {
     "price": 0.065,
     "flags": [
       "ufc_longshot",
